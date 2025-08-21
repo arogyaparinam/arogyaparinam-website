@@ -1,6 +1,13 @@
-import "@/styles/globals.css";
+
 import type { AppProps } from "next/app";
 
+import CustomChakraProvider from "./components/CustomChakraProvider";
+
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <CustomChakraProvider >
+   
+       <Component {...pageProps} />
+    </CustomChakraProvider>
+  )
 }
