@@ -28,7 +28,7 @@ import { useRouter } from "next/router";
 
 const scroll = keyframes`
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); } 
+  to { transform: translateX(-80%); } 
 `;
 
 
@@ -83,16 +83,17 @@ const Home = () => {
       <Header />
 
       {/*Hero Section*/}
-      <Box bg="gray.50" py={15} px={5}>
-        <Container maxW="8xl">
+      <Box bg="gray.50" py={15}   px={5}>
+        <Container maxW="8xl"  mt={{base:20,lg:0}}>
           <Flex
             direction={{ base: "column", lg: "row" }}
             alignItems="center"
             justify="space-between"
             gap={12}
+           
           >
             
-            <VStack align={{base:'center',md:'center',lg:'flex-start'}} spacing={8} flex={1} maxW={{base : "full", md :"400px",lg :"700px"}}>
+            <VStack align={{base:'center',md:'center',lg:'flex-start'}} spacing={{base:5,lg:8}} flex={1} maxW={{base : "full", md :"400px",lg :"700px"}}>
               <Text
                 // as="h1"
                 fontSize={{ base: "24px", md: "40px", lg: "54px" }}
@@ -122,13 +123,13 @@ const Home = () => {
                   color="white"
                   size="lg"
                   px="22px"
-                  height="58px"
+                  height={{base:"40px",lg:"58px"}}
                   
                   minW={{base : "80px", md :"150px",lg : "200px"}}
                   py="18px"
                   fontSize={{base:"sm",lg:"md"}}
                   fontWeight="500"
-                  borderRadius="16px"
+                  borderRadius={{base:'10px',lg:"16px"}}
                   
                   _active={{
                     bg: "blue.800",
@@ -150,10 +151,10 @@ const Home = () => {
                   variant="ghost"
                   size="lg"
                   px="22px"
-                  height="58px"
+                 height={{base:"40px",lg:"58px"}}
                    py="18px"
                      fontWeight="500"
-                  borderRadius={"16px"}
+                 borderRadius={{base:'10px',lg:"16px"}}
                   minW={{base : "80px", md :"150px",lg : "200px"}}
                   bgColor={"rgba(255, 255, 255, 1)"}
                   border=" 1px solid rgba(195, 195, 195, 0.33)"
@@ -201,27 +202,29 @@ const Home = () => {
             direction={{ base: "column", lg: "row" }}
             alignItems={{base:'center',md:'center',lg:'flex-start'}}
             justify="space-between"
-            gap={12}
+            gap={{base:8,lg:12}}
           >
              <VStack align={{base:'center',md:'center',lg:'flex-start'}} spacing={8} flex={1} maxW={{base : "full", md :"400px",lg :"600px"}}>
              <Heading flex={1} fontSize={{base:'24px',md : "34px",lg:'44px'}}  color="#12161D" >
                 Built for India's Digital Health Revolution
               </Heading>
               </VStack>
-              <VStack flex={1}>
-              <Text fontSize={{base:'12px',md : "15px",lg:'18px'}} color="#61656E" lineHeight={{base:'22px',md:'25px',lg:'28px'}} px={{base:1}} maxW={{base : "full", md :"400px",lg :"700px"}}>
+              <VStack flex={1}  maxW={{ base: "full", md: "400px", lg: "700px" }}>
+              <Text fontSize={{base:'12px',md : "15px",lg:'18px'}}  color="#61656E" lineHeight={{base:'22px',md:'25px',lg:'28px'}} px={{base:1}} >
               At Arogya-Parinam, we’re committed to transforming healthcare delivery in India. 
               We build simple, intuitive, and compliant software products that help labs, clinics, and patients stay connected. 
               Whether you're managing diagnostics, running a clinic, or tracking personal health records — our tools are built to serve you.
               </Text>
 
               {showGrid ? (
-        // Show SimpleGrid on md and lg
-        <SimpleGrid
-          columns={{ base: 1, md: 3 }}
+      
+        <Flex
+         justify={'space-between'}
           mt={{ base: "40px", md: "60px", lg: "80px" }}
-          spacing={12}
-          w="full"
+          // spacing={15}
+        
+          w="100%"
+         
         >
           {stats.map((stat, i) => (
             <VStack key={i} spacing={2} textAlign="center">
@@ -233,7 +236,7 @@ const Home = () => {
               </Text>
             </VStack>
           ))}
-        </SimpleGrid>
+        </Flex>
       ) : (
       
  <Box overflow="hidden" bg="white" pt={6} mt="40px">
@@ -242,7 +245,7 @@ const Home = () => {
     display="inline-flex"           
     whiteSpace="nowrap"              
     maxW="90vw"                     
-    animation={`${scroll} 10s linear infinite`}
+    animation={`${scroll} 5s linear infinite`}
   >
     {[...stats, ...stats].map((stat, i) => (
       <Box
@@ -279,12 +282,12 @@ const Home = () => {
       {/* Why Choose Arogya Partner */}
       <Box py={20} >
         <Container maxW="8xl">
-          <VStack spacing={12}>
+          <VStack spacing={{base:6,lg:12}}  >
             <Heading fontSize={{base:'24px',md : "34px",lg:'44px'}} display={"flex"} alignSelf={"flex-start"} color="#12161D">
               Why Choose Arogya-Parinam?
             </Heading>
             
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} mt={{base:'42px',md:'60px',lg:'80px'}}>
+            <SimpleGrid columns={{ base: 1, md: 3 }}   spacing={8} mt={{base:'42px',md:'60px',lg:'80px'}}>
               {[
                 {
                   icon: <GiSuitcase size={"30px"} color="rgba(255, 255, 255, 1)"/>,
@@ -322,7 +325,8 @@ const Home = () => {
               ))}
             </SimpleGrid>
             
-            <Button bgColor={"rgba(31, 107, 161, 1)"} borderRadius={"16px"} height={"58px"} color="rgba(255, 255, 255, 1)" px={"24px"} py={'20px'} fontSize={{base:"13px",lg:"18px"}}
+            <Button bgColor={"rgba(31, 107, 161, 1)"} borderRadius={{base:'10px',lg:"16px"}} height={{base:'40px',lg:"58px"}}
+             color="rgba(255, 255, 255, 1)" px={"24px"} py={'20px'} fontSize={{base:"13px",lg:"18px"}}
             rightIcon={<FaArrowRightLong />}
             fontWeight={"500"}
             _hover={{

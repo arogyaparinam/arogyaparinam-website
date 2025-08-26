@@ -3,7 +3,7 @@ import { FaArrowLeftLong, FaArrowRightLong, FaCheck } from "react-icons/fa6"
 import Header from "../header"
 
 import { keyframes } from "@emotion/react"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import DownloadImg from "../components/icons/mobile/download"
 import ReportsImg from "../components/icons/mobile/reports"
 import BookScans from "../components/icons/mobile/bookScans"
@@ -12,10 +12,12 @@ import Health from "../components/icons/mobile/health"
 import PointsIcon from "../components/icons/mobile/points"
 import { Link } from "@/components/Link";
 import Ratings from "../components/ratings"
+import Logo from "../components/icons/logo"
+import AppImgMob from "../components/icons/appImgMob"
 
 const scrollLeft = keyframes`
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-80%); }
 `;
 
 const MobileApp = () => {
@@ -31,17 +33,47 @@ const MobileApp = () => {
     { value: "98%", label: "User satisfaction" }
   ];
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  
+         const scrollRef = useRef<HTMLDivElement>(null);
+   const [canScrollLeft, setCanScrollLeft] = useState(false);
+   const [canScrollRight, setCanScrollRight] = useState(false);
+ 
 
+   const checkScroll = () => {
+     if (!scrollRef.current) return;
+     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+     setCanScrollLeft(scrollLeft > 0);
+     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+   };
+ 
+   useEffect(() => {
+     checkScroll();
+     const ref = scrollRef.current;
+     if (ref) {
+       ref.addEventListener("scroll", checkScroll);
+       window.addEventListener("resize", checkScroll);
+     }
+     return () => {
+       if (ref) ref.removeEventListener("scroll", checkScroll);
+       window.removeEventListener("resize", checkScroll);
+     };
+   }, []);
+ 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 350;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  if (scrollRef.current) {
+    const container = scrollRef.current;
+   
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 32 
+      : 300; 
+
+    container.scrollBy({
+      left: direction === "left" ? -cardWidth : cardWidth,
+      behavior: "smooth",
+    });
+  }
+};
+
 
   const testimonials = [
     {
@@ -78,7 +110,7 @@ const MobileApp = () => {
 
 
     return (
-       <Box px={0} mx={0}>
+       <Box >
 
 
          <Header />
@@ -90,8 +122,8 @@ const MobileApp = () => {
                       bgGradient="linear(to-b, rgba(242, 242, 242, 1), rgba(255, 255, 255, 1))"
                      
                       px={5}
-                  
-                      py={15}
+                     
+                      py={20}
                     
                     >
                       <Container maxW="8xl" mt={10} px={0}>
@@ -102,7 +134,7 @@ const MobileApp = () => {
                         >
                           {/* Left Content */}
                           <VStack
-                            spacing={8}
+                            spacing={{base:5,lg:8}}
                             maxW={{ base: "full", md: "500px", lg: "75%" }}
                             flex="1"
                             align="center"
@@ -139,11 +171,11 @@ One App for Everything.
                                 color="white"
                                 size="lg"
                                 px="22px"
-                                height="58px"
+                                height={{base:'40px',lg:"58px"}}
                                 minW={{ base: "120px", md: "150px", lg: "200px" }}
                                 fontSize={{ base: "sm", lg: "md" }}
                               
-                                borderRadius="16px"
+                                borderRadius={{base:'10px',lg:'16px'}}
                                
                                 _active={{ bg: "blue.800" }}
                               
@@ -163,8 +195,16 @@ One App for Everything.
                           </VStack>
                     
                           
-                          <Box flex="1" w="full" textAlign="center">
+                          <Box flex="1" w="full" textAlign="center" display={{base:'none',md:'block',lg:'block'}}>
                             <DownloadImg
+                              maxW="100%"
+                              w="full"
+                              h="auto"
+                              objectFit="contain"
+                            />
+                          </Box>
+                          <Box flex="1" w="full" textAlign="center" display={{base:'block',md:'none',lg:'none'}}>
+                            <AppImgMob
                               maxW="100%"
                               w="full"
                               h="auto"
@@ -183,7 +223,7 @@ One App for Everything.
                     direction={{ base: "column", lg: "row" }}
                     alignItems={'flex-start'}
                     justify="space-between"
-                    gap={12}
+                    gap={{base:7,lg:12}}
                   >
                      <VStack align={{base:'center',md:'center',lg:'flex-start'}} spacing={8} flex={1} maxW={{base : "full", md :"400px",lg :"600px"}}>
                      <Heading flex={1} fontSize={{base:'24px',md : "34px",lg:'44px'}}  color="#12161D" >
@@ -192,17 +232,17 @@ One App for Everything.
 “MyArogya App“
                       </Heading>
                       </VStack>
-                      <VStack flex={1}>
+                      <VStack flex={1}  maxW={{base : "100%", md :"600px",lg :"700px"}}>
                       <Text fontSize={{base:'12px',md : "15px",lg:'18px'}} color="#61656E" lineHeight={{base:'22px',md:'25px',lg:'28px'}}
-                      maxW={{base : "100%", md :"600px",lg :"700px"}}>
+                     >
                    MyArogya App is a Personal Health Record storing platform and Diagnostic Booking platform built to give individuals and families full control over their healthcare. Book scans and lab tests directly from the app and receive results in real time—no paperwork, no delays.
                    </Text>
                       {showGrid ? (
                 // Show SimpleGrid on md and lg
-                <SimpleGrid
-                  columns={{ base: 1, md: 3 }}
+                <Flex
+                 justify={"space-between"}
                   mt={{ base: "40px", md: "60px", lg: "80px" }}
-                  spacing={12}
+               
                   w="full"
                 >
                   {datas.map((data, i) => (
@@ -215,7 +255,7 @@ One App for Everything.
                       </Text>
                     </VStack>
                   ))}
-                </SimpleGrid>
+                </Flex>
               ) : (
               
               <Box overflow="hidden" bg="white" pt={6} mt="40px">
@@ -224,7 +264,7 @@ One App for Everything.
                  display="inline-flex"           
                  whiteSpace="nowrap"              
                  maxW="90vw"                     
-                 animation={`${scrollLeft} 10s linear infinite`}
+                 animation={`${scrollLeft} 5s linear infinite`}
                >
                  {[...datas, ...datas].map((data, i) => (
                    <Box
@@ -266,7 +306,7 @@ One App for Everything.
 
   
 
-<Box mt="48px">
+<Box mt={{base:'40px',lg:"48px"}}  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -304,7 +344,8 @@ One App for Everything.
         fontSize={{ base: "12px", md: "15px", lg: "18px" }}
         maxW={{ base: "100%", lg: "90%" }}
       >
-      A single, secure platform to manage everything from diagnostic reports and scan results to vitals and much more —anytime you need them.
+      A single, secure platform to manage everything from  <Box as="br" display={{ base: "block", md: "none", lg: "none" }} />
+       diagnostic reports and scan results to vitals and  <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> much more —anytime you need them.
       </Text>
 
                   <SimpleGrid columns={{ base: 1,lg:2 }} spacing={6} mt={{base:'10px',md:'20px',lg:'30px'}}>
@@ -319,7 +360,7 @@ One App for Everything.
 </Box>
 
 
-<Box mt="48px">
+<Box mt="48px"  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -357,10 +398,11 @@ One App for Everything.
         fontSize={{ base: "12px", md: "15px", lg: "18px" }}
         maxW={{ base: "100%", lg: "90%" }}
       >
-    Easily find trusted diagnostic centers near you, book lab tests or scans within seconds, and avoid long queues with instant digital confirmations.
+    Easily find trusted diagnostic centers near you, book  <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> lab tests 
+    or scans within seconds, and avoid long  <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> queues with instant digital confirmations.
       </Text>
 
-                  <SimpleGrid columns={{ base: 1,md:2,lg:3 }} spacing={6} mt={{base:'10px',md:'20px',lg:'30px'}}>
+                  <SimpleGrid columns={{ base: 2,md:2,lg:3 }} spacing={6} mt={{base:'10px',md:'20px',lg:'30px'}}>
                     <Flex alignItems={"center"} gap={2}><FaCheck size={20} color="rgba(131, 183, 27, 1)"/>
                      <Text fontSize={{base:'11px',md:'15px',lg:'18px'}} color={{base:'rgba(59, 59, 59, 1)',lg:'rgba(73, 73, 73, 1)'}} fontWeight={"400"}>Test & Scan Search</Text></Flex>
                     <Flex alignItems={"center"} gap={2}><FaCheck size={20} color="rgba(131, 183, 27, 1)"/> 
@@ -375,7 +417,7 @@ One App for Everything.
   </Flex>
 </Box>
 
-<Box mt="48px">
+<Box mt="48px"  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -470,7 +512,7 @@ One App for Everything.
 
   
 
-<Box mt="48px">
+<Box mt={{base:'40px',lg:"48px"}}>
   <Flex
     py={5}
     alignItems={{base:'flex-start',lg:'center'}}
@@ -479,8 +521,8 @@ One App for Everything.
     gap={{ base: 10, lg: 20 }} 
   >
 
-    <Box  maxW={{ base: "100%", lg: "700px" }} mx="auto" flex={1} bgColor="rgba(244, 244, 244, 1)"  borderRadius={"24px"}>
-      <Health w="100%" h="auto" />
+    <Box  maxW={{ base: "100%", lg: "700px" }} mx="auto" flex={1}   borderRadius={"24px"}>
+      <Health maxW="100%" h="auto" />
     </Box>
 
 
@@ -497,7 +539,8 @@ One App for Everything.
         </Box>
         <Stack>
             <Text color="#12161D" fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight={"600"}>100% Private & Secure</Text>
-            <Text color={{base:'#3B3B3B',lg:'#61656E'}} lineHeight={{base:'22px',lg:'26px'}}>All your health data is encrypted, stored securely, and accessible only to you or those you approve.</Text>
+            <Text color={{base:'#3B3B3B',lg:'#61656E'}} fontSize={{base:'12px',lg:'18px'}} 
+            lineHeight={{base:'22px',lg:'26px'}}>All your health data is encrypted, stored  securely, and accessible only to you or those you approve.</Text>
         </Stack>
       </Flex>
 
@@ -510,7 +553,8 @@ One App for Everything.
         </Box>
         <Stack>
             <Text color="#12161D" fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight={"600"}>Smart Reminders & Health Logs</Text>
-            <Text color={{base:'#3B3B3B',lg:'#61656E'}} lineHeight={{base:'22px',lg:'26px'}} >Stay on top of doctor visits, test schedules, and medication routines with personalized alerts.</Text>
+            <Text color={{base:'#3B3B3B',lg:'#61656E'}} fontSize={{base:'12px',lg:'18px'}} 
+            lineHeight={{base:'22px',lg:'26px'}} >Stay on top of doctor visits, test schedules, and medication routines with personalized alerts.</Text>
         </Stack>
       </Flex>
       <Divider my={5} height="1px"/>
@@ -522,7 +566,7 @@ One App for Everything.
         </Box>
         <Stack>
             <Text color="#12161D" fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight={"600"}>Share Instantly with QR </Text>
-            <Text color={{base:'#3B3B3B',lg:'#61656E'}} lineHeight={{base:'22px',lg:'26px'}} >Need to share your health profile at the front desk? Just scan your QR—no printouts, no hassle.</Text>
+            <Text color={{base:'#3B3B3B',lg:'#61656E'}} fontSize={{base:'12px',lg:'18px'}} lineHeight={{base:'22px',lg:'26px'}} >Need to share your health profile at the front desk? Just scan your QR—no printouts, no hassle.</Text>
         </Stack>
       </Flex>
     </VStack>
@@ -559,7 +603,7 @@ One App for Everything.
                 ref={scrollRef}
                 
                 overflowX="auto"
-                spacing={6}
+                spacing={8}
                 scrollBehavior="smooth"
                 css={{
                   "&::-webkit-scrollbar": { display: "none" },
@@ -570,7 +614,7 @@ One App for Everything.
                   <Box
                     key={index}
                    minW={{base:'100%',md : "300px",lg:'400px'}}
-                    p={5}
+                    py={5}
                   
                     display={"flex"}
                    
@@ -618,7 +662,7 @@ One App for Everything.
                <IconButton
                 aria-label="Scroll Left"
                 icon={<FaArrowLeftLong size={24} />}
-              
+               disabled={!canScrollLeft}
                 top="50%"
                 left="0"
                 transform="translateY(-50%)"
@@ -630,7 +674,7 @@ One App for Everything.
               <IconButton
                 aria-label="Scroll Right"
                 icon={<FaArrowRightLong size={24}  />}
-                
+                disabled={!canScrollRight}
                 top="50%"
                 right="0"
                 transform="translateY(-50%)"
@@ -645,7 +689,7 @@ One App for Everything.
               </Box>
 
                {/* CTA Section */}
-                    <Box py={20} pt={10} bg="white" px={{base : "20px",md:"40px"}}>
+                    <Box py={20} pt={10} bg="white" px={{base : "15px",md:"40px"}}>
                     <Container
                 maxW="8xl"
                 bgGradient="linear(to-r, rgba(50, 82, 108, 1), rgba(86, 133, 170, 1))"
@@ -662,7 +706,7 @@ One App for Everything.
                   </Text>
                   <Text
                     fontSize={{ base: '12px', md: '14px', lg: '16px' }}
-                    color="#fff"
+                    color={{base:'rgba(218, 218, 218, 1)',lg:"#fff"}}
                     maxW="600px"
                   >
                   From booking tests to storing medical records and sharing health information securely, —designed to keep you and your family in control of care, anytime, anywhere.
@@ -671,10 +715,10 @@ One App for Everything.
                     <Button
                       bg="rgba(255, 255, 255, 1)"
                       fontSize={{ base: '13px', md: '15px', lg: '18px' }}
-                      borderRadius="16px"
+                      borderRadius={{base:'10px',lg:'16px'}}
                       px="24px"
                       py="20px"
-                      height="58px"
+                      height={{base:'40px',lg:"58px"}}
                       rightIcon={<FaArrowRightLong />}
                       color="rgba(57, 57, 57, 1)"
                      fontWeight="500"
@@ -735,16 +779,14 @@ One App for Everything.
                           justify="space-between"
                           gap={12}>
                        <VStack align="start" spacing={4} >
-                              <Text fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight="600" color="rgba(29, 29, 31, 1)">
-                                Arogya-Parinam                
-                                </Text>
+                              <Logo />
                               <Text color="#61656E" fontSize={{base:'12px',md:'14px',lg:'17px'}}>
                               One platform for smart, secure, and connected digital healthcare solutions.
                               </Text>
                             </VStack>
                         
                          
-                           <HStack spacing={12}>
+                             <HStack spacing={{base:20,lg:12}}>
               
                            <VStack align="start" spacing={3}>
                               <Text fontWeight="500" color="#12161D" fontSize={{base:"12px",md:"14px",lg:"17px"}}>Quick Links</Text>

@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/components/icons/labSoftwareImg"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/components/icons/labSoftwareImg", "next.config.js"],
   "exclude": ["node_modules"]
 }

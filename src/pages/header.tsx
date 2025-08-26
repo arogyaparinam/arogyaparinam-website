@@ -58,7 +58,7 @@ const Header = () => {
 
           <Box display={{ base: "none", md: "block" }}>
             <Link href="/contact" textDecor={"none"}>
-              <Button size="sm"bgColor={"rgba(31, 107, 161, 1)"} color="rgba(255, 255, 255, 1)" py="16px" px="24px" height="44px" borderRadius={"16px"} _hover={{
+              <Button bgColor={"rgba(31, 107, 161, 1)"} fontWeight={"normal"} fontSize={'16px'} color="rgba(255, 255, 255, 1)" py="16px" px="24px" height="44px" borderRadius={"16px"} _hover={{
                     bg: "blue.700",
                     
                   }}>
@@ -71,7 +71,7 @@ const Header = () => {
           <Box display={{ base: "block", md: "none" }}>
             <IconButton
               aria-label="Open menu"
-              icon={<CgMenu />}
+              icon={<CgMenu size={22} />}
               variant="ghost"
               onClick={onToggle}
             />

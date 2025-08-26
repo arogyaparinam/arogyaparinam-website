@@ -29,6 +29,7 @@ import DesignerImg from "./components/icons/designerImg"
 import DeveloperImg from "./components/icons/developerImg"
 import { keyframes } from "@emotion/react"
 import { useRouter } from "next/router"
+import DoctorsMobile from "./components/icons/doctorMobile"
 
 const scrollLeft = keyframes`
   0% { transform: translateX(0); }
@@ -73,7 +74,8 @@ const router = useRouter();
        <Box
   bgGradient="linear(to-b, rgba(246, 251, 255, 1), rgba(255, 255, 255, 1))"
   py={15}
-  px={5}
+  pt={20}
+  px={3}
 >
   <Container maxW="8xl" mt={10}>
     <Stack
@@ -113,17 +115,17 @@ const router = useRouter();
           future.
         </Text>
 
-        <HStack spacing={4} pt={4}  justify="center">
+        <HStack spacing={{base:'14px',lg:4}} pt={4}  justify="center">
           <Button
             bg="rgba(31, 107, 161, 1)"
             color="white"
             size="lg"
-            px="22px"
-            height="58px"
+             px={{base:'20px',lg:"22px"}}
+            
             minW={{ base: "120px", md: "150px", lg: "200px" }}
             fontSize={{ base: "sm", lg: "md" }}
-            
-            borderRadius="16px"
+            height={{base:'40px',lg:"58px"}}
+            borderRadius={{base:'10px',lg:"16px"}}
            
             _active={{ bg: "blue.800" }}
             fontWeight="500"
@@ -142,10 +144,10 @@ const router = useRouter();
           <Button
             variant="ghost"
             size="lg"
-            px="22px"
-            height="58px"
+            px={{base:'20px',lg:"22px"}}
             minW={{ base: "120px", md: "150px", lg: "200px" }}
-            borderRadius="16px"
+             height={{base:'40px',lg:"58px"}}
+            borderRadius={{base:'10px',lg:"16px"}}
             bg="white"
             border="1px solid rgba(195, 195, 195, 0.33)"
             fontSize={{ base: "sm", lg: "md" }}
@@ -164,13 +166,21 @@ const router = useRouter();
       </VStack>
 
       
-      <Box flex="1" w="full" textAlign="center">
-        <DoctorsImg
-          maxW="100%"
+      <Box flex="1" w="full" textAlign="center" display={{base:'none',md:'block',lg:'block'}}>
+     <DoctorsImg
+          maxW="100%" 
           w="full"
           h="auto"
           objectFit="contain"
         />
+       
+      </Box>
+      <Box flex="1" w="full" textAlign="center" display={{base:'block',md:'none',lg:'none'}}>
+     
+        <DoctorsMobile   maxW="100%" 
+          w="full"
+          h="auto"
+          objectFit="contain"/>
       </Box>
     </Stack>
   </Container>
@@ -180,7 +190,7 @@ const router = useRouter();
       {/*Health Revolution*/}
        <Box py={20} bg="white" mt={{base:1,lg:10}}>
         <Container maxW="8xl">
-        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'32px',lg:'45px'}} >
+        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'32px',lg:'45px'}} >
               <Heading fontSize={{base:'24px',md : "34px",lg:'44px'}} color={"#12161D"} >
                Built for India’s Digital <br /> Health Revolution
               </Heading>
@@ -254,11 +264,11 @@ const router = useRouter();
             color="white"
             size="lg"
             px="22px"
-            height="58px"
+            height={{base:'40px',lg:"58px"}}
             minW={{ base: "120px", md: "150px", lg: "200px" }}
             fontSize={{ base: "sm", lg: "md" }}
 
-            borderRadius="16px"
+            borderRadius={{base:'10px',lg:"16px"}}
            
             _active={{ bg: "blue.800" }}
            
@@ -354,7 +364,7 @@ const router = useRouter();
 
 
     {/*Future of Health Care*/}
-       <Box py={10} >
+       <Box py={10} pt={{base:1,lg:10}} >
         <Container maxW="8xl" bgColor={"rgba(244, 244, 244, 1)"} borderRadius={{base:'12px',lg:'40px'}} py={20} px={8} >
           <Stack display={"flex"} flexDir={"column"} alignItems={"center"}>
 
@@ -428,17 +438,20 @@ const router = useRouter();
   py={5}
   borderRadius={{base:'12px',lg:'28px'}}
 >
-  <Text color={{base:'rgba(218, 218, 218, 1)',lg:'rgba(255, 255, 255, 1)'}}   textAlign={{base:'center',md:'center',lg:'left'}} fontWeight={{base:'400',lg:'500'}} fontSize={{base:'12px',md:'15px',lg:'20px'}}>Three Products. One Goal - Better Healthcare.</Text>
+  <Text color={{base:'rgba(218, 218, 218, 1)',lg:'rgba(255, 255, 255, 1)'}}   textAlign={{base:'center',md:'center',lg:'left'}}  
+  fontSize={{base:'12px',md:'15px',lg:'20px'}}>Three Products. One Goal - Better Healthcare.</Text>
 
     <Flex flexDir={{base:'column',md:'column',lg:'row'}} mt={{base:'25px',lg:'22px'}} gap={5} alignItems={"center"} justify={"space-between"}>
-  <Text color={'rgba(255, 255, 255, 1)'} textAlign={"center"} fontWeight={{base:'400',lg:'500'}} fontSize={{base:'20px',md:'24px',lg:'26px'}}>Simplify diagnostics, clinic workflows, and health record access</Text>
+  <Text color={'rgba(255, 255, 255, 1)'} textAlign={"center"} fontWeight={'600'} 
+  fontSize={{base:'20px',md:'24px',lg:'26px'}}>Simplify diagnostics, clinic    <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> workflows, and health    <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> record access</Text>
   <Button
         bgColor="rgba(255, 255, 255, 1)"
         fontWeight={500}
-        height="58px"
-        borderRadius="16px"
+        height={{base:'40px',lg:"58px"}}
+        borderRadius={{base:'10px',lg:"16px"}}
         border="1px solid #878787"
         color="rgba(40, 38, 38, 1)"
+        fontSize={{base:'13px',lg:'18px'}}
         px="24px"
         py="20px"
         rightIcon={<FaArrowRightLong />}
@@ -458,7 +471,7 @@ const router = useRouter();
     {/*Features*/}
  <Box py={20} bg="white" mt={{base:1,lg:10}}>
         <Container maxW="8xl">
-        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'32px',lg:'45px'}} >
+        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'32px',lg:'45px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
              Key Features That <br /> Set Us Apart
               </Text>
@@ -619,7 +632,7 @@ const router = useRouter();
     {/*Our Team*/}
      <Box py={10} bg="white" mt={{base:1,lg:5}}>
         <Container maxW="8xl">
-        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'35px',lg:'38px'}} >
+        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'35px',lg:'38px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
             Our Team
               </Text>

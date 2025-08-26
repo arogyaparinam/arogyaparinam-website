@@ -1,6 +1,6 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import styles from "./globals";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 
 
 const config : ThemeConfig = {
@@ -16,17 +16,17 @@ const breakPoints = {
     "2xl" : "96em",
 }
 
-const interDisplay = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter-display",
-});
+// const interDisplay = Inter({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-inter-display",
+// });
 
 const customTheme = extendTheme({
     config,
     fonts : {
-          heading: interDisplay.style.fontFamily,
-          body: interDisplay.style.fontFamily,
+           heading: "Inter Display, sans-serif",
+    body: "Inter Display, sans-serif",
     },
 
     breakPoints,

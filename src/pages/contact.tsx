@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { Formik } from "formik";
 import * as yup from "yup"
 import emailjs from "emailjs-com"
+import Logo from "./components/icons/logo";
+import Header from "./header";
 
 type FormItems = {
     name:string
@@ -23,21 +25,21 @@ const Contact = () => {
     const handleSubmit = (values: FormItems, { resetForm }: any) => {
     emailjs
       .send(
-        "service_s6xe0da",  
-        "template_ru1aqb4", 
+        "service_2igzr8i",  
+        "template_opubbdb", 
         {
-          to_email: "sarvanakumaranish@gmail.com",   
+          to_email: "arogyaparinam@gmail.com",   
           name: values.name,
           email: values.email,
           message: values.message,
         },
-        "-4ZaMjGABV7s97s8c"  
+        "vafrmBku10gKkg-8Z"  
       )
       .then(
         () => {
          
           toast({
-            description:'Message sent successfully!',
+            description:'Message sent',
             position:'top',
             status:'success',
             duration:3000,
@@ -66,6 +68,9 @@ const Contact = () => {
 
     return (
        <Container maxW="full" p={0}>
+
+        <Header />
+
          <Flex  flexDir={{base:'column',md:'column',lg:'row'}} gap={5}  h={{lg:'100vh'}}>
 
           <Box
@@ -74,7 +79,7 @@ const Contact = () => {
   h="100%"
   bgGradient="linear(to-b, rgba(163, 182, 184, 1), rgba(189, 205, 205, 1))"
   order={{ base: 0, md: 0, lg: 2 }}
-  
+
   alignItems={"flex-end"}
   justifyContent={"center"}
 >
@@ -85,13 +90,13 @@ const Contact = () => {
   />
 </Box>
 
-            <Box flex={2} display={"flex"} flexDir={"column"} alignItems={"flex-start"}  p={5} px={{base:2,md:10,lg:20}}  >
-                <Button leftIcon={<FaChevronLeft />} p={0} onClick={()=> router.push('/')} textDecor={"underline"} bg="none" _hover={{bg:"none"}} fontSize={"18px"} fontWeight={500} color="rgba(78, 78, 78, 1)">
+            <Box flex={2} display={"flex"} flexDir={"column"} alignItems={"flex-start"} mb={10} p={5} px={{base:5,md:10,lg:28}}  >
+                <Button display={{base:'none',md:'none',lg:'block'}} leftIcon={<FaChevronLeft />} p={0} onClick={()=> router.push('/')} textDecor={"underline"} bg="none" _hover={{bg:"none"}} fontSize={"18px"} fontWeight={500} color="rgba(78, 78, 78, 1)">
                     Back to Home
                 </Button>
 
-                <Text fontSize={{base:'24px',md:'34px',lg:"54px"}} fontWeight={700} color="rgba(29, 29, 31, 1)" mt={3}>Contact Us</Text>
-                <Text color="#6A6A6A" fontSize={{base:'12px',md:'14px',lg:'16px'}} lineHeight={{base:'22px',md:'25px',lg:"30px"}} fontWeight={'400'} mt={2}>Send us your query via the form below or send us an email at  <Box as="br" display={{ base: "none", md: "none", lg: "block" }} />
+                <Text fontSize={{base:'24px',md:'34px',lg:"54px"}} fontWeight={700} color="rgba(29, 29, 31, 1)" mt={16}>Contact Us</Text>
+                <Text color="#6A6A6A" fontSize={{base:'12px',md:'14px',lg:'16px'}} lineHeight={{base:'22px',md:'25px',lg:"30px"}} fontWeight={'400'} mt={{base:3,lg:2}}>Send us your query via the form below or send us an email at  <Box as="br" display={{ base: "none", md: "none", lg: "block" }} />
 <Text as="span" color="#1F6BA1" fontWeight={"600"}>arogyaparinam@gmail.com</Text> {""} for any issue you’re facing!</Text>
 
  <Box
@@ -101,8 +106,9 @@ const Contact = () => {
           bgGradient="linear(to-b, rgba(163, 182, 184, 1), rgba(189, 205, 205, 1))"
         alignItems="center"
         justifyContent="center"
+          borderRadius={{base:'12px',lg:0}}
       >
-        <ContactImg  h="auto" maxW="100%" />
+        <ContactImg borderRadius={{base:'12px',lg:0}}  h="auto" maxW="100%" />
       </Box>
 
 
@@ -124,11 +130,12 @@ const Contact = () => {
                             id="name"
                             bgColor={"rgba(244, 239, 239, 1)"} 
                             border="1px solid transparent"
-                            height={"54px"}
+                            height={{base:'44px',lg:'54px'}}
                             placeholder="Enter your name"
-                            borderRadius={'12px'}
+                            borderRadius={{base:'8px',lg:'12px'}}
                             value={values.name || ""}
-                            
+                            fontWeight={"400"}
+                            _placeholder={{color:'rgba(141, 141, 141, 1)'}}
                             onChange={handleChange}
                             focusBorderColor="rgba(31, 107, 161, 1)"
                             />
@@ -137,7 +144,7 @@ const Contact = () => {
     {errors.name as string}
   </FormErrorMessage>
                         </FormControl>
-                        <FormControl mt={5}  isInvalid={!!errors.email && !!touched.email}>
+                        <FormControl mt={8}  isInvalid={!!errors.email && !!touched.email}>
                             <FormLabel fontSize={"15px"} fontWeight={'500'} color='rgba(68, 68, 68, 1)'></FormLabel>
 
                             <Input
@@ -145,9 +152,11 @@ const Contact = () => {
                             id="email"
                             bgColor={"rgba(244, 239, 239, 1)"} 
                            border="1px solid transparent"
-                             height={"54px"}
                             placeholder="Email Address"
-                            borderRadius={'12px'}
+                            height={{base:'44px',lg:'54px'}}
+                            fontWeight={"400"}
+                            _placeholder={{color:'rgba(141, 141, 141, 1)'}}
+                             borderRadius={{base:'8px',lg:'12px'}}
                             value={values.email || ""}
                             onChange={handleChange}
                             focusBorderColor="rgba(31, 107, 161, 1)"
@@ -157,15 +166,17 @@ const Contact = () => {
     {errors.email as string}
   </FormErrorMessage>
                         </FormControl>
-                      <FormControl mt={5} isInvalid={!!errors.message && !!touched.message}>
+                      <FormControl mt={8} isInvalid={!!errors.message && !!touched.message}>
   <Textarea
     name="message"
     id="message"
     bgColor="rgba(244, 239, 239, 1)"
     border="1px solid transparent"
     placeholder="Type your message here"
-    borderRadius="12px"
+ borderRadius={{base:'8px',lg:'12px'}}
     height="160px"
+    fontWeight={"400"}
+    _placeholder={{color:'rgba(141, 141, 141, 1)'}}
     resize="none"
     value={values.message || ""}
     onChange={handleChange}
@@ -182,15 +193,15 @@ const Contact = () => {
   type="submit"
   isLoading={isSubmitting}  
   loadingText="Sending..."
-  height="55px"
-  borderRadius="16px"
+  height={{base:'40px',lg:'55px'}}
+  borderRadius={{base:'10px',lg:"16px"}}
   fontSize={{base:'13px',md:'15px',lg:"18px"}}
   px={'25px'}
   py={'10px'}
   mt={10}
   bg="rgba(31, 107, 161, 1)"
   color="white"
-  w={{base:'100%',lg:'250px'}}
+  w={{base:'50%',lg:'250px'}}
   _active={{ bg: "rgba(31, 107, 161, 1)" }}
   fontWeight="500"
                                 _hover={{
@@ -217,16 +228,14 @@ const Contact = () => {
                     justify="space-between"
                     gap={12}>
                  <VStack align="start" spacing={4} >
-                        <Text fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight="600" color="rgba(29, 29, 31, 1)">
-                          Arogya-Parinam                
-                          </Text>
+                        <Logo />
                         <Text color="#61656E" fontSize={{base:'12px',md:'14px',lg:'17px'}}>
                         One platform for smart, secure, and connected digital healthcare solutions.
                         </Text>
                       </VStack>
                   
                    
-                     <HStack spacing={12}>
+                       <HStack spacing={{base:20,lg:12}}>
         
                      <VStack align="start" spacing={3}>
                         <Text fontWeight="500" color="#12161D" fontSize={{base:"12px",md:"14px",lg:"17px"}}>Quick Links</Text>

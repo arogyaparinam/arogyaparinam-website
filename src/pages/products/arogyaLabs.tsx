@@ -9,12 +9,15 @@ import { keyframes } from "@emotion/react"
 import MultiUser from "../components/icons/labSoftwareImg/multiUser"
 import ManageTests from "../components/icons/labSoftwareImg/manageTests"
 import SoftwareFor from "../components/icons/labSoftwareImg/whom"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Ratings from "../components/ratings"
+import Logo from "../components/icons/logo"
+import LabMobileImg from "../components/icons/labMobileImg"
+import SoftwareForMob from "../components/icons/softwareForMob"
 
 const scrollLeft = keyframes`
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-80%); }
 `;
 
 
@@ -33,17 +36,49 @@ const ArogyaLabsSoftware = () => {
     { value: "98%", label: "User satisfaction" }
   ];
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-
+   
+     
+     
+     
+         const scrollRef = useRef<HTMLDivElement>(null);
+   const [canScrollLeft, setCanScrollLeft] = useState(false);
+   const [canScrollRight, setCanScrollRight] = useState(false);
+ 
+   // Check scroll boundaries
+   const checkScroll = () => {
+     if (!scrollRef.current) return;
+     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+     setCanScrollLeft(scrollLeft > 0);
+     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+   };
+ 
+   useEffect(() => {
+     checkScroll();
+     const ref = scrollRef.current;
+     if (ref) {
+       ref.addEventListener("scroll", checkScroll);
+       window.addEventListener("resize", checkScroll);
+     }
+     return () => {
+       if (ref) ref.removeEventListener("scroll", checkScroll);
+       window.removeEventListener("resize", checkScroll);
+     };
+   }, []);
+ 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 350;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  if (scrollRef.current) {
+    const container = scrollRef.current;
+   
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 32 
+      : 300; 
+
+    container.scrollBy({
+      left: direction === "left" ? -cardWidth : cardWidth,
+      behavior: "smooth",
+    });
+  }
+};
 
   const testimonials = [
     {
@@ -75,6 +110,16 @@ const ArogyaLabsSoftware = () => {
         "Getting patient reports directly through the platform saves me time. I no longer have to call labs or wait for printed results. Everything I need is available instantly, helping me provide better care.",
       avatar:
         "https://tse4.mm.bing.net/th/id/OIP.rqP30nn4mA4oDzm0T-wdRwHaHa?pid=Api&P=0&h=180",
+    },
+    {
+      title: "Used Clinical Software",
+      name: "Dr. Arjun Mehta",
+      role: "General Physician, Delhi",
+      stars:4.5,
+      content:
+        "Getting patient reports directly through the platform saves me time. I no longer have to call labs or wait for printed results. Everything I need is available instantly, helping me provide better care.",
+      avatar:
+        "https://tse4.mm.bing.net/th/id/OIP.rqP30nn4mA4oDzm0T-wdRwHaHa?pid=Api&P=0&h=180",
     }
   ];
 
@@ -89,6 +134,7 @@ const ArogyaLabsSoftware = () => {
                     
                       bgGradient="linear(to-b, rgba(242, 242, 242, 1), rgba(255, 255, 255, 1))"
                       py={15}
+                      pt={20}
                       px={0}
                     >
                       <Container maxW="8xl" mt={10} px={5}>
@@ -99,7 +145,7 @@ const ArogyaLabsSoftware = () => {
                         >
                           {/* Left Content */}
                           <VStack
-                            spacing={8}
+                            spacing={{base:5,lg:8}}
                             maxW={{ base: "full", md: "500px", lg: "75%" }}
                             flex="1"
                             align="center"
@@ -114,9 +160,20 @@ const ArogyaLabsSoftware = () => {
                               
                               
                             >
-                            Smarter Lab Operations. Faster Results. 
+                          <Box display={{base:'block',md:'block',lg:'none'}}>
+                              Smarter Lab Operations.
                             <br />
-One Platform.
+<Box as="span" whiteSpace={"nowrap"}>                             Faster Results. 
+                           
+One Platform.</Box>
+                          </Box>
+                          <Box display={{base:'none',md:'none',lg:'block'}}>
+                              Smarter Lab Operations. Faster Results. 
+                            <br />
+<Box as="span" whiteSpace={"nowrap"}>                            
+                           
+One Platform.</Box>
+                          </Box>
                             </Text>
                     
                             <Text
@@ -136,11 +193,11 @@ One Platform.
                                 color="white"
                                 size="lg"
                                 px="22px"
-                                height="58px"
+                                height={{base:'40px',lg:"58px"}}
                                 minW={{ base: "120px", md: "150px", lg: "200px" }}
                                 fontSize={{ base: "sm", lg: "md" }}
                           
-                                borderRadius="16px"
+                                borderRadius={{base:'10px',lg:"16px"}}
                               
                                 _active={{ bg: "blue.800" }}
                                 
@@ -160,8 +217,16 @@ One Platform.
                           </VStack>
                     
                           
-                          <Box flex="1" w="full" textAlign="center">
+                          <Box flex="1" w="full" textAlign="center" display={{base:'none',md:'block',lg:'block'}}>
                             <LabSoftware
+                              maxW="100%"
+                              w="full"
+                              h="auto"
+                              objectFit="contain"
+                            />
+                          </Box>
+                          <Box flex="1" w="full" textAlign="center" display={{base:'block',md:'none',lg:'none'}}>
+                            <LabMobileImg
                               maxW="100%"
                               w="full"
                               h="auto"
@@ -180,7 +245,7 @@ One Platform.
                     direction={{ base: "column", lg: "row" }}
                     alignItems={'flex-start'}
                     justify="space-between"
-                    gap={12}
+                    gap={{base:7,lg:12}}
                   >
                      <VStack align={{base:'center',md:'center',lg:'flex-start'}} spacing={8} flex={1} maxW={{base : "full", md :"400px",lg :"600px"}}>
                      <Heading flex={1} fontSize={{base:'24px',md : "34px",lg:'44px'}}  color="#12161D" >
@@ -189,17 +254,17 @@ One Platform.
 “ Arogya Labs “
                       </Heading>
                       </VStack>
-                      <VStack flex={1}>
-                      <Text fontSize={{base:'12px',md : "15px",lg:'18px'}} color="#61656E" lineHeight={{base:'22px',md:'25px',lg:'28px'}} maxW={{base : "full", md :"600px",lg :"700px"}}>
+                      <VStack flex={1}  maxW={{base : "full", md :"600px",lg :"700px"}}>
+                      <Text fontSize={{base:'12px',md : "15px",lg:'18px'}} color="#61656E" lineHeight={{base:'22px',md:'25px',lg:'28px'}}>
                     ABHA Parinam's Lab Management Software is a powerful, AI-enabled platform designed to simplify daily operations for diagnostic labs, clinics, and scan centers. From test booking and patient registration to automated reporting and inventory tracking, everything is managed in one seamless system.
                       </Text>
         
                       {showGrid ? (
                 // Show SimpleGrid on md and lg
-                <SimpleGrid
-                  columns={{ base: 1, md: 3 }}
+                <Flex
+                  justify={'space-between'}
                   mt={{ base: "40px", md: "60px", lg: "80px" }}
-                  spacing={12}
+                  
                   w="full"
                 >
                   {datas.map((data, i) => (
@@ -212,7 +277,7 @@ One Platform.
                       </Text>
                     </VStack>
                   ))}
-                </SimpleGrid>
+                </Flex>
               ) : (
               
                <Box overflow="hidden" bg="white" pt={6} mt="40px">
@@ -221,7 +286,7 @@ One Platform.
                                display="inline-flex"           
                                whiteSpace="nowrap"              
                                maxW="90vw"                     
-                               animation={`${scrollLeft} 10s linear infinite`}
+                               animation={`${scrollLeft} 5s linear infinite`}
                              >
                                {[...datas, ...datas].map((data, i) => (
                                  <Box
@@ -263,7 +328,7 @@ One Platform.
 
   
 
-<Box mt="48px">
+<Box mt="48px" border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -301,10 +366,10 @@ One Platform.
         fontSize={{ base: "12px", md: "15px", lg: "18px" }}
         maxW={{ base: "100%", lg: "90%" }}
       >
-      From registration to report, manage everything in one seamless flow — no spreadsheets, no switching tools, just one clear dashboard.
+      From registration to report, manage everything in one seamless flow — no spreadsheets, no switching <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> tools, just one clear dashboard.
       </Text>
 
-                  <SimpleGrid columns={{ base: 1,md:2,lg:3 }} spacing={6} mt={{base:'10px',md:'20px',lg:'30px'}}>
+                  <SimpleGrid columns={{ base: 2,md:2,lg:3 }} spacing={6} mt={{base:'10px',md:'20px',lg:'30px'}}>
                     <Flex alignItems={"center"} gap={2}><FaCheck size={20} color="rgba(131, 183, 27, 1)"/> <Text fontSize={{base:'11px',md:'15px',lg:'18px'}} color={{base:'rgba(59, 59, 59, 1)',lg:'rgba(73, 73, 73, 1)'}} fontWeight={"400"}>One dashboard</Text></Flex>
                     <Flex alignItems={"center"} gap={2}><FaCheck size={20} color="rgba(131, 183, 27, 1)"/> <Text fontSize={{base:'11px',md:'15px',lg:'18px'}} color={{base:'rgba(59, 59, 59, 1)',lg:'rgba(73, 73, 73, 1)'}} fontWeight={"400"}>Zero paperwork</Text></Flex>
                     <Flex alignItems={"center"} gap={2}><FaCheck size={20} color="rgba(131, 183, 27, 1)"/> <Text fontSize={{base:'11px',md:'15px',lg:'18px'}} color={{base:'rgba(59, 59, 59, 1)',lg:'rgba(73, 73, 73, 1)'}} fontWeight={"400"}>Fully digital workflows</Text></Flex>
@@ -316,7 +381,7 @@ One Platform.
 </Box>
 
 
-<Box mt="48px">
+<Box mt="48px" border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -355,7 +420,8 @@ One Platform.
         fontSize={{ base: "12px", md: "15px", lg: "18px" }}
         maxW={{ base: "100%", lg: "90%" }}
       >
-      From registration to report, manage everything in one seamless flow. Assign custom roles to staff for secure, organized, and streamlined lab operations — everyone sees only what they need.
+      From registration to report, manage everything in one seamless flow. Assign custom roles to staff for <Box as="br" display={{ base: "block", md: "none", lg: "none" }} />
+       secure, organized, and streamlined lab operations — <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> everyone sees only what they need.
       </Text>
 
                   <SimpleGrid columns={{ base: 1,lg:2 }} spacing={6} mt={{base:'10px',md:'20px',lg:'30px'}}>
@@ -369,7 +435,7 @@ One Platform.
   </Flex>
 </Box>
 
-<Box mt="48px">
+<Box mt="48px" border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -407,12 +473,13 @@ One Platform.
         fontSize={{ base: "12px", md: "15px", lg: "18px" }}
         maxW={{ base: "100%", lg: "90%" }}
       >
-     Access a ready-to-use library of tests or add your own. Easily manage, edit, and track every test from booking to result — all from a single dashboard.
+     Access a ready-to-use library of tests or add your <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> own. 
+     Easily manage, edit, and track every test from <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> booking to result — all from a single dashboard.
       </Text>
 
                 <Grid
- templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "1fr 1.5fr 1.5fr" }}
-  gap={8}
+ templateColumns={{ base: "1fr 1fr", md: "1fr 1fr", lg: "1fr 1.5fr 1.5fr" }}
+  gap={{base:3,lg:8}}
   mt={{ base: "10px", md: "20px", lg: "30px" }}
 >
   <Flex alignItems="center" gap={2}>
@@ -473,7 +540,7 @@ One Platform.
 
   
 
-<Box mt="48px">
+<Box mt={{base:'33px',lg:"48px"}}>
   <Flex
     py={5}
     alignItems={{base:'flex-start',lg:'center'}}
@@ -482,9 +549,11 @@ One Platform.
     gap={{ base: 10, lg: 20 }} 
   >
 
-    <Box  maxW={{ base: "100%", lg: "700px" }} mx="auto" flex={1} bgColor="rgba(244, 244, 244, 1)"  borderRadius={"24px"}>
-      <SoftwareFor w="100%" h="auto" />
+    <Box  maxW={{ base: "100%", lg: "700px" }} mx="auto"   borderRadius={"24px"}
+   >
+      <SoftwareFor maxW="100%" h="auto" />
     </Box>
+ 
 
    
     <VStack
@@ -500,11 +569,11 @@ One Platform.
         </Box>
         <Stack>
             <Text color="#12161D" fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight={"600"}>Small Diagnostic Labs</Text>
-            <Text color={{base:'#3B3B3B',lg:'#61656E'}} lineHeight={{base:'22px',lg:'26px'}}>Digitize daily operations, manage walk-in patients, and deliver accurate reports faster — no complex setup needed.</Text>
+            <Text color={{base:'#3B3B3B',lg:'#61656E'}} fontSize={{base:'12px',lg:'18px'}} letterSpacing={{base:'0.210px',lg:'none'}} lineHeight={{base:'23px',lg:'26px'}}>Digitize daily operations, manage walk-in patients, and deliver accurate reports faster — no complex setup needed.</Text>
         </Stack>
       </Flex>
 
-      <Divider my={10} height="1px"/>
+      <Divider my={{base:6,lg:10}} height="1px"/>
 
       <Flex alignItems={"flex-start"} gap={5}>
         <Box width={{base:'32px',lg:'48px'}} height={{base:'32px',lg:'48px'}} bgColor={"rgba(245, 247, 254, 1)"} p={5} display={"flex"} borderRadius={{base:'32px',lg:'48px'}} justifyContent={"center"}
@@ -513,7 +582,7 @@ One Platform.
         </Box>
         <Stack>
             <Text color="#12161D" fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight={"600"}>Independent Test & Scan Centers</Text>
-            <Text color={{base:'#3B3B3B',lg:'#61656E'}} lineHeight={{base:'22px',lg:'26px'}} >Track smaller-scale pathology or radiology services, maintain test records, and simplify report handling — all in one place.</Text>
+            <Text color={{base:'#3B3B3B',lg:'#61656E'}} fontSize={{base:'12px',lg:'18px'}} letterSpacing={{base:'0.210px',lg:'none'}} lineHeight={{base:'23px',lg:'26px'}} >Track smaller-scale pathology or radiology services, maintain test records, and simplify report handling — all in one place.</Text>
         </Stack>
       </Flex>
     </VStack>
@@ -542,15 +611,16 @@ One Platform.
                      We build for real people solving real problems. Here’s how Arogya Parinam is making a difference in the lives of doctors, lab owners, and patients.
                       </Text>
                     </VStack>
-                        <Box position="relative" maxW="8xl" mx="auto" mt={{base:'44px',md:'54px',lg:'74px'}} >
+                        <Box position="relative" maxW="8xl"  mt={{base:'44px',md:'54px',lg:'74px'}} >
              
         
               {/* Scrollable Container */}
               <HStack
                 ref={scrollRef}
-                
+                w="full"
                 overflowX="auto"
-                spacing={6}
+                spacing={8}
+                
                 scrollBehavior="smooth"
                 css={{
                   "&::-webkit-scrollbar": { display: "none" },
@@ -561,7 +631,7 @@ One Platform.
                   <Box
                     key={index}
                    minW={{base:'100%',md : "300px",lg:'400px'}}
-                    p={5}
+                    py={5}
                   
                     display={"flex"}
                    
@@ -613,6 +683,7 @@ One Platform.
               
                 top="50%"
                 left="0"
+                disabled={!canScrollLeft}
                 transform="translateY(-50%)"
                 zIndex={10}
                 onClick={() => scroll("left")}
@@ -622,7 +693,7 @@ One Platform.
               <IconButton
                 aria-label="Scroll Right"
                 icon={<FaArrowRightLong size={24}  />}
-                
+                disabled={!canScrollRight}
                 top="50%"
                 right="0"
                 transform="translateY(-50%)"
@@ -650,24 +721,25 @@ One Platform.
                     fontWeight={600}
                     color="rgba(255, 255, 255, 1)"
                   >
-                    Ready to Simplify Your Lab Operations?
+                    Ready to Simplify Your <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> Lab Operations?
                   </Text>
                   <Text
                     fontSize={{ base: '12px', md: '14px', lg: '16px' }}
-                    color="#fff"
-                    maxW="600px"
+                    color={{base:'rgba(218, 218, 218, 1)',lg:"#fff"}}
+                    maxW={{base:'full',lg:"600px"}}
+                    lineHeight={{base:'22px',lg:'26px'}}
                   >
                    Discover how our software can reduce errors, boost efficiency, and improve lab 
-operations and  experience — all in just one platform.
+operations and experience — all in just one platform.
                   </Text>
                   <HStack spacing={4}>
                     <Button
                       bg="rgba(255, 255, 255, 1)"
                       fontSize={{ base: '13px', md: '15px', lg: '18px' }}
-                      borderRadius="16px"
+                      borderRadius={{base:'10px',lg:"16px"}}
                       px="24px"
                       py="20px"
-                      height="58px"
+                      height={{base:'40px',lg:"58px"}}
                       rightIcon={<FaArrowRightLong />}
                       color="rgba(57, 57, 57, 1)"
                      fontWeight="500"
@@ -694,16 +766,14 @@ operations and  experience — all in just one platform.
                           justify="space-between"
                           gap={12}>
                        <VStack align="start" spacing={4} >
-                              <Text fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight="600" color="rgba(29, 29, 31, 1)">
-                                Arogya-Parinam                
-                                </Text>
+                              <Logo />
                               <Text color="#61656E" fontSize={{base:'12px',md:'14px',lg:'17px'}}>
                               One platform for smart, secure, and connected digital healthcare solutions.
                               </Text>
                             </VStack>
                         
                          
-                           <HStack spacing={12}>
+                           <HStack spacing={{base:20,lg:12}}>
               
                            <VStack align="start" spacing={3}>
                               <Text fontWeight="500" color="#12161D" fontSize={{base:"12px",md:"14px",lg:"17px"}}>Quick Links</Text>

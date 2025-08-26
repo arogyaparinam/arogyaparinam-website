@@ -4,16 +4,13 @@ import NextLink from "next/link";
 
 export type LinkProps = ChakraLinkProps & {
   isActive?: boolean;
-  href?: string;
+  href: string; // required
   isExternal?: boolean;
 };
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  function Link(props, ref) {
-    const { href = "/", children, isExternal, ...rest } = props;
-
+  function Link({ href, children, isExternal, ...rest }, ref) {
     if (isExternal) {
-    
       return (
         <ChakraLink
           ref={ref}
@@ -29,11 +26,9 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
     
     return (
-      <NextLink href={href} passHref>
-        <ChakraLink ref={ref} {...rest}>
-          {children}
-        </ChakraLink>
-      </NextLink>
+      <ChakraLink as={NextLink} href={href} ref={ref} {...rest}>
+        {children}
+      </ChakraLink>
     );
   }
 );

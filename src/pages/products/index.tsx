@@ -24,6 +24,7 @@ const Products = () => {
              <Box
               bgGradient="linear(to-b, rgba(246, 251, 255, 1), rgba(255, 255, 255, 1))"
               py={15}
+              pt={20}
               px={5}
             >
               <Container maxW="8xl" mt={10}>
@@ -34,7 +35,7 @@ const Products = () => {
                 >
                   {/* Left Content */}
                   <VStack
-                    spacing={8}
+                    spacing={{base:5,lg:8}}
                     maxW={{ base: "full", md: "500px", lg: "75%" }}
                     flex="1"
                     align="center"
@@ -44,12 +45,16 @@ const Products = () => {
                       fontWeight="700"
                       color="rgba(29, 29, 31, 1)"
                       lineHeight={{base:'34px',md:'44px',lg:'60px'}}
-                      letterSpacing="-0.02em"
+                      letterSpacing="-0.03em"
                       textAlign="center"
-                      
+                      px={0}
                       
                     >
-                    Delivering Innovations Shaping <br /> Health Futures
+<Box as="span" whiteSpace="nowrap">
+    Delivering Innovations Shaping
+  </Box>{" "}
+  <br />
+  Health Futures
                     </Text>
             
                     <Text
@@ -67,11 +72,11 @@ const Products = () => {
                         color="white"
                         size="lg"
                         px="22px"
-                        height="58px"
+                        height={{base:'40px',lg:"58px"}}
                         minW={{ base: "120px", md: "150px", lg: "200px" }}
                         fontSize={{ base: "sm", lg: "md" }}
                         fontWeight="500"
-                        borderRadius="16px"
+                        borderRadius={{base:'10px',lg:"16px"}}
                       
                         _active={{ bg: "blue.800" }}
                        
@@ -105,9 +110,9 @@ const Products = () => {
 
 
             {/*Why choose Arogya-parinam products*/}
-               <Box  bg="white"  py={20} >
+               <Box  bg="white"  py={20} pb={15}>
                     <Container maxW="8xl" bgColor={"rgba(255, 255, 255, 1)"} borderRadius={{base:'12px',lg:'40px'}}px={8} >
-                      <Stack display={"flex"} flexDir={"column"} alignItems={"flex-start"} spacing={10}>
+                      <Stack display={"flex"} flexDir={"column"} alignItems={"flex-start"} spacing={{base:7,lg:10}}>
             
                         <Text fontSize={{base:'24px',md:'34px',lg:'44px'}} lineHeight={{base:'34px',md:'44px',lg:'52px'}} fontWeight={"700"}
                          color={"#12161D"} >Why Choose Arogya <br /> Parinam Products?</Text>
@@ -119,7 +124,7 @@ const Products = () => {
               templateRows="repeat(4, 1fr)"
               gap={8} 
             
-              mt={14}
+              mt={{base:12,lg:14}}
             >
               <GridItem colSpan={{base:8,lg:7}} rowSpan={4} >
                 <Box bgColor="rgba(244, 244, 244, 1)" border="1px solid rgba(231, 231, 231, 1)" borderRadius={{base:'12px',lg:'24px'}} p={4} px={6}>

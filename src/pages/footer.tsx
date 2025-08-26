@@ -1,5 +1,5 @@
 import { Box, Container, Flex,Text,Image, Heading, VStack, SimpleGrid, Button, HStack, IconButton, Accordion, AccordionItem, AccordionButton, AccordionPanel, Divider } from "@chakra-ui/react";
-import {  useRef } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
@@ -8,6 +8,7 @@ import ArogyaLabsImg from "./components/icons/arogyaLabsImg";
 import DocsImg from "./components/icons/docsImg";
 import { useRouter } from "next/router";
 import Ratings from "./components/ratings";
+import Logo from "./components/icons/logo";
 
 type Props = {
   questions : boolean
@@ -21,17 +22,45 @@ const Footer = ({questions} : Props) => {
     
     
     
-          const scrollRef = useRef<HTMLDivElement | null>(null);
-    
-      const scroll = (direction : "left" | "right") => {
-        if (scrollRef.current) {
-          const scrollAmount = 350; 
-          scrollRef.current.scrollBy({
-            left: direction === "left" ? -scrollAmount : scrollAmount,
-            behavior: "smooth",
-          });
-        }
-      };
+        const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // Check scroll boundaries
+  const checkScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    checkScroll();
+    const ref = scrollRef.current;
+    if (ref) {
+      ref.addEventListener("scroll", checkScroll);
+      window.addEventListener("resize", checkScroll);
+    }
+    return () => {
+      if (ref) ref.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, []);
+
+ const scroll = (direction: "left" | "right") => {
+  if (scrollRef.current) {
+    const container = scrollRef.current;
+   
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 25 
+      : 300; 
+
+    container.scrollBy({
+      left: direction === "left" ? -cardWidth : cardWidth,
+      behavior: "smooth",
+    });
+  }
+};
     
       const testimonials = [
         {
@@ -52,6 +81,16 @@ const Footer = ({questions} : Props) => {
             "Using the PHR app, I can access my reports anytime and share them instantly with doctors. No more digging through papers before a checkup.",
          avatar:
         "https://tse3.mm.bing.net/th/id/OIP.KsMSos03Ccw6lt36oe3BxQHaE7?pid=Api&P=0&h=180",
+        },
+        {
+          title: "Used Clinical Software",
+          name: "Dr. Arjun Mehta",
+          role: "General Physician, Delhi",
+           stars:4.5,
+          content:
+            "The clinical software feels like it was built for real doctors. Prescriptions, follow-ups, and history — everything’s just a few clicks away.",
+          avatar:
+        "https://tse4.mm.bing.net/th/id/OIP.rqP30nn4mA4oDzm0T-wdRwHaHa?pid=Api&P=0&h=180",
         },
         {
           title: "Used Clinical Software",
@@ -87,7 +126,7 @@ const Footer = ({questions} : Props) => {
      {/* What We Offer - Our Products */}
       <Box py={20} bg="white">
         <Container maxW="8xl">
-        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'32px',lg:'45px'}} >
+        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'30px',lg:'40px'}} >
               <Heading fontSize={{base:'24px',md : "34px",lg:'44px'}} color={"#12161D"} maxW="350px">
                 What We Offer - <br /> Our Products
               </Heading>
@@ -97,10 +136,10 @@ const Footer = ({questions} : Props) => {
 Discover how Arogya-Parinam simplifies health data management across the ecosystem.
               </Text>
             </Flex>
-          <VStack spacing={12}>
+          <VStack spacing={12} align={"flex-start"}>
             
             
-            <SimpleGrid columns={{ base: 1, md: 2,lg:3 }} spacing={12} mt={{base:'40px',md:'60px',lg:'80px'}}>
+            <SimpleGrid columns={{ base: 1, md: 2,lg:3 }} spacing={{base:12,lg:20}} w="full" justifyItems={{base:"center",lg:'space-between'}}   mt={{base:'40px',md:'60px',lg:'80px'}}>
               {[
                 {
                   title: "Arogya Labs",
@@ -130,10 +169,10 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
                   borderRadius="xl"
                   overflow="hidden"
                   shadow="sm"
-                  pt={10}
+                  pt={{base:6,lg:12}}
                   px={3}
                   
-                  // w="400px"
+                  maxW="400px"
                 >
                   <Box h={200}  display="flex" alignItems="center" justifyContent="center" >
                     <Text fontSize="4xl">{product.image}</Text>
@@ -154,7 +193,7 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
                   transition="all 0.1s"
                   fontWeight={"500"} bgColor={product.title === "Arogya Docs" ? "rgba(115, 115, 115, 1)" : "rgba(31, 107, 161, 1)"} 
                   mt={"35px"} rightIcon={product.title !== "Arogya Docs" ? <FaArrowRightLong /> : undefined} color="rgba(255, 255, 255, 1)" 
-                  borderRadius={"10px"} px={"20px"} py={"10px"} height={"42px"}>{product.title === "Arogya Docs" ? "Launching Soon..." : "View Product Info"}</Button>
+                  borderRadius={"10px"} px={"20px"} py={"10px"} height={"40px"}>{product.title === "Arogya Docs" ? "Launching Soon..." : "View Product Info"}</Button>
                   </Box>
                 </Box>
               ))}
@@ -171,11 +210,11 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
               <Text fontSize={{base:"24px",md:"34px",lg:'44px'}} fontWeight={"700"} color="#12161D">
                Real Stories. Real Impact.
               </Text>
-              <Text fontSize={{base :"12px",md:'15px',lg:'18px'}} color="#61656E" maxW={{base:"full",md:'400px',lg:'700px'}}>
+              <Text fontSize={{base :"12px",md:'15px',lg:'20px'}} color="#61656E" maxW={'90%'}>
                We build for real people solving real problems. Here’s how Arogya-Parinam is making a difference in the lives of doctors, lab owners, and patients.
               </Text>
             </VStack>
-                <Box position="relative" maxW="8xl" mx="auto" mt={{base:'44px',md:'64px',lg:'84px'}}  py={10}>
+                <Box position="relative" maxW="8xl" mx="auto" mt={{base:'44px',md:'64px',lg:'84px'}}  py={5}>
      
 
       {/* Scrollable Container */}
@@ -253,13 +292,14 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
         transform="translateY(-50%)"
         zIndex={10}
         onClick={() => scroll("left")}
+        disabled={!canScrollLeft}
         bg="none"
        
       />
       <IconButton
         aria-label="Scroll Right"
         icon={<FaArrowRightLong size={24}  />}
-        
+        disabled={!canScrollRight}
         top="50%"
         right="0"
         transform="translateY(-50%)"
@@ -285,7 +325,7 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
             py={5}
           >
             
-            <VStack align={'flex-start'} spacing={8} flex={1} maxW={{base : "full", md :"400px",lg :"500px"}}>
+            <VStack align={'flex-start'} spacing={{base:5,lg:8}} flex={1} maxW={{base : "full", md :"400px",lg :"500px"}}>
               <Heading
                 // as="h1"
                 fontSize={{ base: "24px", md: "34px", lg: "44px" }}
@@ -370,24 +410,25 @@ Questions
       fontWeight={600}
       color="rgba(255, 255, 255, 1)"
     >
-      Smarter Healthcare Begins Here
+      Smarter Healthcare  <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> Begins Here
     </Text>
     <Text
-      fontSize={{ base: '12px', md: '14px', lg: '16px' }}
-      color="#fff"
+      fontSize={{ base: '13px', md: '14px', lg: '16px' }}
+      color={{base:'rgba(218, 218, 218, 1)',lg:"#fff"}}
       maxW="600px"
+      lineHeight={{base:'22px',lg:'26px'}}
     >
-      Join the growing network of labs, clinics, and individuals transforming
-      healthcare with our platform
+      Join the growing network of labs, clinics, and   individuals transforming
+      healthcare  with our platform
     </Text>
     <HStack spacing={4}>
       <Button
         bg="rgba(255, 255, 255, 1)"
         fontSize={{ base: '13px', md: '15px', lg: '18px' }}
-        borderRadius="16px"
+        borderRadius={{base:'10px',lg:"16px"}}
         px="24px"
         py="20px"
-        height="58px"
+        height={{base:'40px',lg:"58px"}}
         rightIcon={<FaArrowRightLong />}
         color="rgba(57, 57, 57, 1)"
         fontWeight={"500"}
@@ -431,16 +472,14 @@ Questions
             justify="space-between"
             gap={12}>
          <VStack align="start" spacing={4} >
-                <Text fontSize={{base:'18px',md:'22px',lg:'24px'}} fontWeight="600" color="rgba(29, 29, 31, 1)">
-                  Arogya-Parinam                
-                  </Text>
+                < Logo />
                 <Text color="#61656E" fontSize={{base:'12px',md:'14px',lg:'17px'}}>
                 One platform for smart, secure, and connected digital healthcare solutions.
                 </Text>
               </VStack>
           
            
-             <HStack spacing={12}>
+             <HStack spacing={{base:20,lg:12}}>
 
              <VStack align="start" spacing={3}>
                 <Text fontWeight="500" color="#12161D" fontSize={{base:"12px",md:"14px",lg:"17px"}}>Quick Links</Text>
