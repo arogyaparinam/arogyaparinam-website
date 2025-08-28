@@ -74,10 +74,10 @@ const router = useRouter();
        <Box
   bgGradient="linear(to-b, rgba(246, 251, 255, 1), rgba(255, 255, 255, 1))"
   py={15}
-  pt={20}
+
   px={3}
 >
-  <Container maxW="8xl" mt={10}>
+  <Container maxW="8xl" mt={{base:14,lg:24}}>
     <Stack
       direction={"column"}
       align="center"
@@ -188,7 +188,7 @@ const router = useRouter();
 
 
       {/*Health Revolution*/}
-       <Box py={20} bg="white" mt={{base:1,lg:10}}>
+       <Box py={{base:14,lg:20}} bg="white" mt={{base:1,lg:10}}>
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'32px',lg:'45px'}} >
               <Heading fontSize={{base:'24px',md : "34px",lg:'44px'}} color={"#12161D"} >
@@ -202,7 +202,7 @@ const router = useRouter();
             direction={{ base: "column", lg: "row" }}
             alignItems="center"
           
-            gap={20}
+            gap={{base:10,lg:20}}
             py={{base:10,lg:20}}
           >
         
@@ -214,7 +214,7 @@ const router = useRouter();
         
         />
      
-            <VStack align={'flex-start'} spacing={8} flex={1}>
+            <VStack align={'flex-start'} spacing={{base:5,lg:8}} flex={1}>
               <Text color="rgba(18, 26, 32, 1)" fontSize={{base:'20px',md:'24px',lg:'28px'}} fontWeight={600}>We’re on a mission to</Text>
               <Flex align={"center"} gap={5}>
                 <Icon boxSize={{base:7,lg:10}}>
@@ -364,7 +364,7 @@ const router = useRouter();
 
 
     {/*Future of Health Care*/}
-       <Box py={10} pt={{base:1,lg:10}} >
+       <Box py={{base:0,lg:20}}  px={{base:5,lg:0}}>
         <Container maxW="8xl" bgColor={"rgba(244, 244, 244, 1)"} borderRadius={{base:'12px',lg:'40px'}} py={20} px={8} >
           <Stack display={"flex"} flexDir={"column"} alignItems={"center"}>
 
@@ -430,12 +430,12 @@ const router = useRouter();
         </Box>
 
     {/*Three Products*/}
-    <Box py={10} bg="white" px={{base : "20px",md:"40px"}}>
+    <Box py={10} pb={{base:5,lg:10}} bg="white" px={{base : "20px",md:"40px"}}>
       <Container
       px={{base : "20px",md:"50px"}}
   maxW="8xl"
   bgGradient="linear(to-r,rgba(86, 133, 170, 1), rgba(50, 82, 108, 1))"
-  py={5}
+  py={8}
   borderRadius={{base:'12px',lg:'28px'}}
 >
   <Text color={{base:'rgba(218, 218, 218, 1)',lg:'rgba(255, 255, 255, 1)'}}   textAlign={{base:'center',md:'center',lg:'left'}}  
@@ -469,7 +469,7 @@ const router = useRouter();
       </Box>
 
     {/*Features*/}
- <Box py={20} bg="white" mt={{base:1,lg:10}}>
+ <Box py={{base:14,lg:20}} bg="white" mt={{base:1,lg:10}}>
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'32px',lg:'45px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
@@ -630,7 +630,7 @@ const router = useRouter();
       </Box>
 
     {/*Our Team*/}
-     <Box py={10} bg="white" mt={{base:1,lg:5}}>
+     <Box py={{base:5,lg:10}} bg="white" mt={{base:1,lg:5}}>
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'35px',lg:'38px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>

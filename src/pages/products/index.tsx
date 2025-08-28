@@ -24,10 +24,10 @@ const Products = () => {
              <Box
               bgGradient="linear(to-b, rgba(246, 251, 255, 1), rgba(255, 255, 255, 1))"
               py={15}
-              pt={20}
+            
               px={5}
             >
-              <Container maxW="8xl" mt={10}>
+              <Container maxW="8xl" mt={{base:14,lg:24}}>
                 <Stack
                   direction={"column"}
                   align="center"
@@ -110,9 +110,9 @@ const Products = () => {
 
 
             {/*Why choose Arogya-parinam products*/}
-               <Box  bg="white"  py={20} pb={15}>
-                    <Container maxW="8xl" bgColor={"rgba(255, 255, 255, 1)"} borderRadius={{base:'12px',lg:'40px'}}px={8} >
-                      <Stack display={"flex"} flexDir={"column"} alignItems={"flex-start"} spacing={{base:7,lg:10}}>
+               <Box  bg="white"  py={{base:14,lg:20}} pb={{base:3,lg:10}}>
+                    <Container maxW="8xl" bgColor={"rgba(255, 255, 255, 1)"} borderRadius={{base:'12px',lg:'40px'}} py={{base:1,lg:10}} px={5} >
+                      <Stack display={"flex"} flexDir={"column"} alignItems={"flex-start"} spacing={{base:5,lg:8}}>
             
                         <Text fontSize={{base:'24px',md:'34px',lg:'44px'}} lineHeight={{base:'34px',md:'44px',lg:'52px'}} fontWeight={"700"}
                          color={"#12161D"} >Why Choose Arogya <br /> Parinam Products?</Text>

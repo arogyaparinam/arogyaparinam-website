@@ -2,11 +2,14 @@ import { Box, Container, Divider, Flex, HStack, VStack,Text, Button, FormControl
 import ContactImg from "./components/icons/contactImg";
 import { FaChevronLeft } from "react-icons/fa6";
 import { useRouter } from "next/router";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as yup from "yup"
 import emailjs from "emailjs-com"
-import Logo from "./components/icons/logo";
+
 import Header from "./header";
+
+import ContactLogo from "./components/icons/contactLogo";
+import { useState } from "react";
 
 type FormItems = {
     name:string
@@ -65,21 +68,48 @@ const Contact = () => {
         message:yup.string().required("This Field is required"),
     })
 
+      const [focusedField, setFocusedField] = useState<string | null>(null);
+
 
     return (
-       <Container maxW="full" p={0}>
+          <Box >
+       <Container maxW="8xl" p={0}>
+
+        <Box display={{base:'block',md:'none',lg:'none'}}> 
 
         <Header />
+        </Box>
 
-         <Flex  flexDir={{base:'column',md:'column',lg:'row'}} gap={5}  h={{lg:'100vh'}}>
+<Box px={5}>
+
+   <Button
+  display={{ base: "none", md: "flex", lg: "flex" }} 
+  alignItems="center"
+  justifyContent="center"
+  mt={5}
+  leftIcon={<FaChevronLeft size={20} />}
+  onClick={() => router.push("/")}
+  textDecor="underline"
+  bg="none"
+  _hover={{ bg: "none" }}
+  fontSize="18px"
+  fontWeight={500}
+  color="rgba(78, 78, 78, 1)"
+  p={0}
+> 
+  Back to Home
+</Button>
+</Box>
+    
+           <Flex  flexDir={{base:'column',md:'column',lg:'row'}} alignItems={"center"}  gap={{base:5,lg:10}} mb={10}  h={{lg:'90vh'}} >
 
           <Box
-  w={{ base: "100%", md: "100%", lg: "660px" }}  
+  w={{ base: "100%", md: "100%", lg: "600px" }}  
   display={{base:'none',md:'none',lg:'flex'}}
-  h="100%"
+  h={{base:'100%',md:'100%',lg:'80%'}}
   bgGradient="linear(to-b, rgba(163, 182, 184, 1), rgba(189, 205, 205, 1))"
   order={{ base: 0, md: 0, lg: 2 }}
-
+ borderRadius={"20px"}
   alignItems={"flex-end"}
   justifyContent={"center"}
 >
@@ -90,10 +120,9 @@ const Contact = () => {
   />
 </Box>
 
-            <Box flex={2} display={"flex"} flexDir={"column"} alignItems={"flex-start"} mb={10} p={5} px={{base:5,md:10,lg:28}}  >
-                <Button display={{base:'none',md:'none',lg:'block'}} leftIcon={<FaChevronLeft />} p={0} onClick={()=> router.push('/')} textDecor={"underline"} bg="none" _hover={{bg:"none"}} fontSize={"18px"} fontWeight={500} color="rgba(78, 78, 78, 1)">
-                    Back to Home
-                </Button>
+            <Box flex={1} display={"flex"} flexDir={"column"} alignItems={"flex-start"} mb={10} px={5}   >
+             
+
 
                 <Text fontSize={{base:'24px',md:'34px',lg:"54px"}} fontWeight={700} color="rgba(29, 29, 31, 1)" mt={16}>Contact Us</Text>
                 <Text color="#6A6A6A" fontSize={{base:'12px',md:'14px',lg:'16px'}} lineHeight={{base:'22px',md:'25px',lg:"30px"}} fontWeight={'400'} mt={{base:3,lg:2}}>Send us your query via the form below or send us an email at  <Box as="br" display={{ base: "none", md: "none", lg: "block" }} />
@@ -102,6 +131,7 @@ const Contact = () => {
  <Box
         w="100%"
         my={8}
+        px={5}
         display={{ base: "flex", md: "flex", lg: "none" }}
           bgGradient="linear(to-b, rgba(163, 182, 184, 1), rgba(189, 205, 205, 1))"
         alignItems="center"
@@ -121,9 +151,19 @@ const Contact = () => {
             validationSchema={validation}
             onSubmit={handleSubmit}>
                 {({handleSubmit,handleChange,values,errors,touched,isSubmitting})=>(
-                    <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-                        <FormControl mt={8}  isInvalid={!!errors.name && !!touched.name} >
-                            <FormLabel fontSize={"15px"} fontWeight={'500'} color='rgba(68, 68, 68, 1)'>Name</FormLabel>
+                    <form onSubmit={handleSubmit} style={{width:'100%'}}>
+                 <Box width={{base:"100%",lg:'90%'}} mt={10} >
+                         <FormControl  isInvalid={!!errors.name && !!touched.name} >
+                            {(focusedField === "name" || values.name) && (
+              <FormLabel
+                htmlFor="name"
+                fontSize="15px"
+                fontWeight="500"
+                color="rgba(68, 68, 68, 1)"
+              >
+                Name
+              </FormLabel>
+            )}
 
                             <Input
                             name="name"
@@ -133,10 +173,13 @@ const Contact = () => {
                             height={{base:'44px',lg:'54px'}}
                             placeholder="Enter your name"
                             borderRadius={{base:'8px',lg:'12px'}}
+                            fontSize={{base:'13px',lg:'16px'}}
                             value={values.name || ""}
                             fontWeight={"400"}
                             _placeholder={{color:'rgba(141, 141, 141, 1)'}}
                             onChange={handleChange}
+                             onFocus={() => setFocusedField("name")}
+                       onBlur={() => setFocusedField(null)}
                             focusBorderColor="rgba(31, 107, 161, 1)"
                             />
 
@@ -145,12 +188,21 @@ const Contact = () => {
   </FormErrorMessage>
                         </FormControl>
                         <FormControl mt={8}  isInvalid={!!errors.email && !!touched.email}>
-                            <FormLabel fontSize={"15px"} fontWeight={'500'} color='rgba(68, 68, 68, 1)'></FormLabel>
-
+                            {(focusedField === "email" || values.name) && (
+              <FormLabel
+                htmlFor="name"
+                fontSize="15px"
+                fontWeight="500"
+                color="rgba(68, 68, 68, 1)"
+              >
+                Email 
+              </FormLabel>
+            )}
                             <Input
                             name="email"
                             id="email"
                             bgColor={"rgba(244, 239, 239, 1)"} 
+                              fontSize={{base:'13px',lg:'16px'}}
                            border="1px solid transparent"
                             placeholder="Email Address"
                             height={{base:'44px',lg:'54px'}}
@@ -159,6 +211,8 @@ const Contact = () => {
                              borderRadius={{base:'8px',lg:'12px'}}
                             value={values.email || ""}
                             onChange={handleChange}
+                             onFocus={() => setFocusedField("email")}
+                       onBlur={() => setFocusedField(null)}
                             focusBorderColor="rgba(31, 107, 161, 1)"
                             />
 
@@ -167,12 +221,24 @@ const Contact = () => {
   </FormErrorMessage>
                         </FormControl>
                       <FormControl mt={8} isInvalid={!!errors.message && !!touched.message}>
+
+                          {(focusedField === "message" || values.name) && (
+              <FormLabel
+                htmlFor="name"
+                fontSize="15px"
+                fontWeight="500"
+                color="rgba(68, 68, 68, 1)"
+              >
+                Message 
+              </FormLabel>
+            )}
   <Textarea
     name="message"
     id="message"
     bgColor="rgba(244, 239, 239, 1)"
     border="1px solid transparent"
     placeholder="Type your message here"
+    fontSize={{base:'13px',lg:'16px'}}
  borderRadius={{base:'8px',lg:'12px'}}
     height="160px"
     fontWeight={"400"}
@@ -180,6 +246,8 @@ const Contact = () => {
     resize="none"
     value={values.message || ""}
     onChange={handleChange}
+     onFocus={() => setFocusedField("message")}
+                       onBlur={() => setFocusedField(null)}
     focusBorderColor="rgba(31, 107, 161, 1)"
   />
 
@@ -213,6 +281,7 @@ const Contact = () => {
   Send Message
 </Button>
 
+                 </Box>
                     </form>
                 )}
 
@@ -221,6 +290,8 @@ const Contact = () => {
            
 
         </Flex>
+       
+         </Container>
         <Box py={12} bg="rgba(242, 242, 242, 1)">
                 <Container maxW="8xl">
                  <Flex  direction={{ base: "column", lg: "row" }}
@@ -228,7 +299,11 @@ const Contact = () => {
                     justify="space-between"
                     gap={12}>
                  <VStack align="start" spacing={4} >
-                        <Logo />
+             
+  <ContactLogo />
+
+
+                    
                         <Text color="#61656E" fontSize={{base:'12px',md:'14px',lg:'17px'}}>
                         One platform for smart, secure, and connected digital healthcare solutions.
                         </Text>
@@ -266,7 +341,7 @@ const Contact = () => {
                   
                 </Container>
               </Box>
-       </Container>
+      </Box>
     )
 }
 

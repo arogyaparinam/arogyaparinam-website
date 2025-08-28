@@ -14,6 +14,7 @@ import { Link } from "@/components/Link";
 import Ratings from "../components/ratings"
 import Logo from "../components/icons/logo"
 import AppImgMob from "../components/icons/appImgMob"
+import HealthMobileImg from "../components/icons/healthMob"
 
 const scrollLeft = keyframes`
   from { transform: translateX(0); }
@@ -59,16 +60,21 @@ const MobileApp = () => {
      };
    }, []);
  
-  const scroll = (direction: "left" | "right") => {
+ const scroll = (direction: "left" | "right") => {
   if (scrollRef.current) {
     const container = scrollRef.current;
-   
+
+    
     const cardWidth = container.firstElementChild
-      ? (container.firstElementChild as HTMLElement).offsetWidth + 32 
-      : 300; 
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 20  
+      : 300;
+
+  
+    const isLargeScreen = window.innerWidth >= 1024; 
+    const cardsPerScroll = isLargeScreen ? 3 : 1;
 
     container.scrollBy({
-      left: direction === "left" ? -cardWidth : cardWidth,
+      left: direction === "left" ? -cardWidth * cardsPerScroll : cardWidth * cardsPerScroll,
       behavior: "smooth",
     });
   }
@@ -105,7 +111,28 @@ const MobileApp = () => {
         "Getting patient reports directly through the platform saves me time. I no longer have to call labs or wait for printed results. Everything I need is available instantly, helping me provide better care.",
       avatar:
         "https://tse4.mm.bing.net/th/id/OIP.rqP30nn4mA4oDzm0T-wdRwHaHa?pid=Api&P=0&h=180",
-    }
+    },
+    {
+      title: "Used Lab Management Software",
+      name: "RajShankar Nathan",
+      role: "Lab Owner, Pune",
+      stars:5,
+      content:
+        "We transitioned from manual entries to fully automated workflows in just 3 days. The difference has been incredible — our team now handles more patients each day with far less chaos, fewer errors, and improved turnaround times.",
+      avatar:
+        "https://sp.yimg.com/ib/th/id/OIP.eC-EGebIvU8PWNlQBuWiTAAAAA?pid=Api&w=148&h=148&c=7&dpr=2&rs=1",
+    },
+    {
+      title: "Used Personal Health Record Application",
+      name: "Priya Sinha",
+      role: "App User, Bengaluru",
+      stars:4,
+      content:
+        "We moved from paper-based operations to fully digital in 2 days. ABHA Parinam helped streamline everything — from patient registration to report sharing. Our lab is now faster, more accurate, and easier to manage.",
+      avatar:
+        "https://tse3.mm.bing.net/th/id/OIP.KsMSos03Ccw6lt36oe3BxQHaE7?pid=Api&P=0&h=180",
+    },
+    
   ];
 
 
@@ -123,10 +150,10 @@ const MobileApp = () => {
                      
                       px={5}
                      
-                      py={20}
+                      py={15}
                     
                     >
-                      <Container maxW="8xl" mt={10} px={0}>
+                      <Container maxW="8xl"  mt={{base:14,lg:24}} px={0}>
                         <Stack
                           direction={"column"}
                           align="center"
@@ -216,7 +243,7 @@ One App for Everything.
                     </Box>
 
         {/*Onboarded */}
-        <Box py={20} bg="white" mt={{base:2,md:5,lg:10}}>
+        <Box py={{base:14,lg:20}} bg="white" >
                 <Container maxW="8xl">
            
                   <Flex
@@ -295,7 +322,7 @@ One App for Everything.
               </Box>
 
         {/* why choose our lab software*/}
-         <Box py={{base:10,lg:20}} bg="white" mt={{base:1,lg:5}}>
+         <Box py={{base:5,lg:20}} bg="white">
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'32px',lg:'45px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
@@ -306,7 +333,7 @@ One App for Everything.
 
   
 
-<Box mt={{base:'40px',lg:"48px"}}  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
+<Box mt={{base:'35px',lg:"45px"}}  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -360,7 +387,7 @@ One App for Everything.
 </Box>
 
 
-<Box mt="48px"  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
+<Box mt="35px"  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -417,7 +444,7 @@ One App for Everything.
   </Flex>
 </Box>
 
-<Box mt="48px"  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
+<Box mt="35px"  border={{base:'1px solid rgba(240, 234, 234, 1)',lg:'none'}} boxShadow={{base:' 12px 16px 50px 0 rgba(154, 154, 154, 0.12)',lg:'none'}} px={{base:5,lg:0}} py={{base:2,lg:0}} borderRadius={{base:'12px',lg:'0'}}>
   <Flex
   
     alignItems={{base:'flex-start',lg:'center'}}
@@ -501,7 +528,7 @@ One App for Everything.
 
 
       {/*For Whom*/}
-         <Box py={10} bg="white" mt={{base:1,lg:5}}>
+         <Box py={{base:14,lg:20}} bg="white" >
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'32px',lg:'45px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
@@ -512,7 +539,7 @@ One App for Everything.
 
   
 
-<Box mt={{base:'40px',lg:"48px"}}>
+<Box mt={{base:'15px',lg:"48px"}}>
   <Flex
     py={5}
     alignItems={{base:'flex-start',lg:'center'}}
@@ -521,8 +548,11 @@ One App for Everything.
     gap={{ base: 10, lg: 20 }} 
   >
 
-    <Box  maxW={{ base: "100%", lg: "700px" }} mx="auto" flex={1}   borderRadius={"24px"}>
+    <Box  maxW={{ base: "100%", lg: "700px" }}  flex={1}   borderRadius={"24px"} display={{base:'none',md:'block',lg:'block'}}>
       <Health maxW="100%" h="auto" />
+    </Box>
+    <Box  maxW={"100%"}  flex={1}   borderRadius={"24px"} display={{base:'block',md:'none',lg:'none'}}>
+      <HealthMobileImg maxW="100%" h="auto" />
     </Box>
 
 
@@ -584,7 +614,7 @@ One App for Everything.
               
         
         {/*Real Stories*/}
-        <Box py={20} bg="rgba(255, 255, 255, 1)">
+        <Box py={{base:5,lg:20}} bg="rgba(255, 255, 255, 1)">
                 <Container maxW="8xl">
               
                     <VStack spacing={4} textAlign="left" display={"flex"} flexDir={"column"} alignItems={"left"}>
@@ -595,7 +625,7 @@ One App for Everything.
                     We designed MyArogya for real people facing real healthcare challenges. Here’s how it’s transforming everyday experiences for patients, families, and doctors across the country.
                       </Text>
                     </VStack>
-                        <Box position="relative" maxW="8xl" mx="auto" mt={{base:'44px',md:'54px',lg:'74px'}} >
+                        <Box position="relative" maxW="8xl" mx="auto"  mt={{base:'24px',md:'44px',lg:'60px'}} >
              
         
               {/* Scrollable Container */}
@@ -603,7 +633,7 @@ One App for Everything.
                 ref={scrollRef}
                 
                 overflowX="auto"
-                spacing={8}
+                spacing={5}
                 scrollBehavior="smooth"
                 css={{
                   "&::-webkit-scrollbar": { display: "none" },
@@ -613,7 +643,8 @@ One App for Everything.
                 {testimonials.map((t, index) => (
                   <Box
                     key={index}
-                   minW={{base:'100%',md : "300px",lg:'400px'}}
+                  flex="0 0 auto" 
+  w={{ base: "100%", md: "300px", lg: "calc((100% - 2 * 24px) / 3)" }} 
                     py={5}
                   
                     display={"flex"}
@@ -689,7 +720,7 @@ One App for Everything.
               </Box>
 
                {/* CTA Section */}
-                    <Box py={20} pt={10} bg="white" px={{base : "15px",md:"40px"}}>
+                    <Box py={{base:10,lg:15}} pb={{base:16,lg:20}} bg="white" px={{base : "15px",md:"40px"}}>
                     <Container
                 maxW="8xl"
                 bgGradient="linear(to-r, rgba(50, 82, 108, 1), rgba(86, 133, 170, 1))"

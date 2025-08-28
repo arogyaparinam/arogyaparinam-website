@@ -47,20 +47,26 @@ const Footer = ({questions} : Props) => {
     };
   }, []);
 
- const scroll = (direction: "left" | "right") => {
+const scroll = (direction: "left" | "right") => {
   if (scrollRef.current) {
     const container = scrollRef.current;
-   
+
+    // Get the width of one card
     const cardWidth = container.firstElementChild
       ? (container.firstElementChild as HTMLElement).offsetWidth + 25 
-      : 300; 
+      : 300;
+
+    // Detect screen size
+    const isLargeScreen = window.innerWidth >= 1024; 
+    const cardsPerScroll = isLargeScreen ? 3 : 1;
 
     container.scrollBy({
-      left: direction === "left" ? -cardWidth : cardWidth,
+      left: direction === "left" ? -cardWidth * cardsPerScroll : cardWidth * cardsPerScroll,
       behavior: "smooth",
     });
   }
 };
+
     
       const testimonials = [
         {
@@ -102,7 +108,25 @@ const Footer = ({questions} : Props) => {
           avatar:
         "https://tse4.mm.bing.net/th/id/OIP.rqP30nn4mA4oDzm0T-wdRwHaHa?pid=Api&P=0&h=180",
         },
-     
+      {
+          title: "Used Lab Management Software",
+          name: "RajShankar Nathan",
+          role: "Lab Owner, Pune",
+          stars:5,
+          content:
+            "With Arogya-Parinam’s software, we automated our test bookings, reports, and staff roles. It’s faster, cleaner, and our patients love getting reports digitally.",
+          avatar: "https://sp.yimg.com/ib/th/id/OIP.eC-EGebIvU8PWNlQBuWiTAAAAA?pid=Api&w=148&h=148&c=7&dpr=2&rs=1",
+        },
+        {
+          title: "Used Personal Health Record Application",
+          name: "Priya Sinha",
+          role: "App User, Bengaluru",
+           stars:4,
+          content:
+            "Using the PHR app, I can access my reports anytime and share them instantly with doctors. No more digging through papers before a checkup.",
+         avatar:
+        "https://tse3.mm.bing.net/th/id/OIP.KsMSos03Ccw6lt36oe3BxQHaE7?pid=Api&P=0&h=180",
+        },
       ];
     
     
@@ -124,9 +148,9 @@ const Footer = ({questions} : Props) => {
     return (
   <Box>
      {/* What We Offer - Our Products */}
-      <Box py={20} bg="white">
+      <Box py={{base:14,lg:20}} bg="white">
         <Container maxW="8xl">
-        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'30px',lg:'40px'}} >
+        <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'24px',md:'30px',lg:'33px'}} >
               <Heading fontSize={{base:'24px',md : "34px",lg:'44px'}} color={"#12161D"} maxW="350px">
                 What We Offer - <br /> Our Products
               </Heading>
@@ -169,7 +193,7 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
                   borderRadius="xl"
                   overflow="hidden"
                   shadow="sm"
-                  pt={{base:6,lg:12}}
+                  pt={{base:8,lg:12}}
                   px={3}
                   
                   maxW="400px"
@@ -177,7 +201,7 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
                   <Box h={200}  display="flex" alignItems="center" justifyContent="center" >
                     <Text fontSize="4xl">{product.image}</Text>
                   </Box>
-                  <Box p={5} mt={10}>
+                  <Box py={5} mt={{base:6,lg:10}}>
                     <Text fontSize={{base:'20px',md:'24px',lg:'26px'}} fontWeight={600} mb={1} color="gray.800">{product.title}</Text>
                     <Text color="rgba(75, 75, 75, 1)" fontSize={{base:'12px',md:'13px',lg:'16px'}} fontWeight={500} >{product.description}</Text>
                     <Button onClick={()=> product.path && router.push(product.path)}   _hover={
@@ -203,18 +227,18 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
       </Box>
 
       {/* Real Stories, Real Impact */}
-      <Box py={20} bg="rgba(255, 255, 255, 1)">
+      <Box py={{base:8,lg:20}} bg="rgba(255, 255, 255, 1)">
         <Container maxW="8xl">
       
             <VStack spacing={4} textAlign="left" display={"flex"} flexDir={"column"} alignItems={"left"}>
               <Text fontSize={{base:"24px",md:"34px",lg:'44px'}} fontWeight={"700"} color="#12161D">
-               Real Stories. Real Impact.
+               Real Stories. <Box as="br" display={{ base: "block", md: "none", lg: "none" }} /> Real Impact.
               </Text>
               <Text fontSize={{base :"12px",md:'15px',lg:'20px'}} color="#61656E" maxW={'90%'}>
                We build for real people solving real problems. Here’s how Arogya-Parinam is making a difference in the lives of doctors, lab owners, and patients.
               </Text>
             </VStack>
-                <Box position="relative" maxW="8xl" mx="auto" mt={{base:'44px',md:'64px',lg:'84px'}}  py={5}>
+                <Box position="relative" maxW="8xl" mx="auto"  mt={{base:'24px',md:'44px',lg:'60px'}}  py={5}>
      
 
       {/* Scrollable Container */}
@@ -231,7 +255,8 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
         {testimonials.map((t, index) => (
           <Box
             key={index}
-            minW={{base:'100%',md : "300px",lg:'400px'}}
+            flex="0 0 auto" 
+  w={{ base: "100%", md: "300px", lg: "calc((100% - 2 * 24px) / 3)" }} 
             minH={{base:'100%',md : "300px",lg:'400px'}}
             bg="rgba(86, 133, 170, 1)"
             borderRadius="2xl"
@@ -315,7 +340,7 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
 
       {/* FAQ Section */}
         {questions && 
-         <Box  py={15} px={5}>
+         <Box  py={{base:5,lg:15}} px={{base:0,lg:5}}>
         <Container maxW="8xl">
           <Flex
             direction={{ base: "column", lg: "row" }}
@@ -378,9 +403,20 @@ Questions
             fontWeight={400}
             lineHeight={{ base: "22px", md: "24px", lg: "26px" }}
             mt={2}
+            color={{base:"#3B3B3B",lg:"#61656E"}}
             fontSize={{ base: "13px", md: "15px", lg: "17px" }}
           >
-            {faq.answer}
+            <Text as="span">
+    {faq.answer.split(/(“Request a Demo”)/g).map((part, index) =>
+      part === `“Request a Demo”` ? (
+        <Text as="span" key={index} color={{base:"#33536D",lg:"#1F6BA1"}} fontWeight={{base:"500",lg:"600"}}>
+          {part}
+        </Text>
+      ) : (
+        part
+      )
+    )}
+  </Text>
           </AccordionPanel>
         </>
       )}
@@ -397,7 +433,7 @@ Questions
      
 
       {/* CTA Section */}
-      <Box py={20} bg="white" px={{base : "20px",md:"40px"}}>
+      <Box py={{base:14,lg:20}} pt={{base:5,lg:20}} bg="white" px={{base : "20px",md:"40px"}}>
       <Container
   maxW="8xl"
   bgGradient="linear(to-r, rgba(50, 82, 108, 1), rgba(86, 133, 170, 1))"
@@ -465,7 +501,7 @@ Questions
       </Box>
 
       {/* Footer */}
-      <Box py={12} bg="rgba(242, 242, 242, 1)">
+      <Box py={{base:8,lg:12}} bg="rgba(242, 242, 242, 1)">
         <Container maxW="8xl">
          <Flex  direction={{ base: "column", lg: "row" }}
             alignItems="flex-start"

@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import Logo from "./components/icons/logo";
 import { CgMenu } from "react-icons/cg";
 import { Link } from "@/components/Link";
+import { FaAngleUp } from "react-icons/fa6";
 
 const Header = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const Header = () => {
   ];
 
   return (
-    <Box bg="white" shadow="sm" position="sticky" top={0} zIndex={1000}>
+    <Box bg="white" shadow="sm" position="sticky" top={0} zIndex={1000} borderBottom={"1px solid rgba(232, 232, 232, 1)"}>
       <Container maxW="8xl">
         <Flex justify="space-between" align="center" py={4}>
           <Logo />
@@ -69,12 +70,21 @@ const Header = () => {
 
        
           <Box display={{ base: "block", md: "none" }}>
+{isOpen ? 
+             <IconButton
+              aria-label="close menu"
+              icon={<FaAngleUp  size={22} />}
+              variant="ghost"
+              onClick={onToggle}
+            />
+            :
+           
             <IconButton
               aria-label="Open menu"
               icon={<CgMenu size={22} />}
               variant="ghost"
               onClick={onToggle}
-            />
+            />}
           </Box>
         </Flex>
       </Container>

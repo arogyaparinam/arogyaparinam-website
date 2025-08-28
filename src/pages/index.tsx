@@ -46,17 +46,17 @@ const Home = () => {
 
   const images = [
     <MobileImg
-      width={{ base: "280px", md: "350px", lg: "450px", xl: "550px" }}
+      width={{ base: "326px", md: "350px", lg: "450px", xl: "550px" }}
       height={{ base: "350px", md: "440px", lg: "560px", xl: "680px" }}
       maxWidth="100%"
     />,
     <LapImg 
-    width={{ base: "280px", md: "350px", lg: "450px", xl: "550px" }}
+    width={{ base: "326px", md: "350px", lg: "450px", xl: "550px" }}
     height={{ base: "350px", md: "440px", lg: "560px", xl: "680px" }}
     maxWidth="100%"
     />,
     <MobileImgTwo 
-    width={{ base: "280px", md: "350px", lg: "450px", xl: "550px" }}
+    width={{ base: "326px", md: "350px", lg: "450px", xl: "550px" }}
     height={{ base: "350px", md: "440px", lg: "560px", xl: "680px" }}
     maxWidth="100%"
     />
@@ -83,8 +83,8 @@ const Home = () => {
       <Header />
 
       {/*Hero Section*/}
-      <Box bg="gray.50" py={15}   px={5}>
-        <Container maxW="8xl"  mt={{base:20,lg:0}}>
+      <Box bg="gray.50" py={15}  pb={20}  px={{base:1,lg:5}}>
+        <Container maxW="8xl"  mt={{base:14,lg:15}}>
           <Flex
             direction={{ base: "column", lg: "row" }}
             alignItems="center"
@@ -172,12 +172,12 @@ const Home = () => {
             </VStack>
 
             {/* Right Content - Phone Mockup */}
-            <Box flex={1} position="relative" maxW={{ base: "320px", md: "400px", lg: "450px", xl: "550px" }}>
+            <Box flex={1} position="relative" maxW={{ base: "350px", md: "400px", lg: "450px", xl: "550px" }} px={0}>
     
             {images[activeIndex]}
 
             {/* Pagination Dots */}
-            <HStack justify="center" mt={-2} spacing={2}>
+            <HStack justify="center" mt={{base:8,lg:-5}} spacing={2}>
               {images.map((_, i) => (
                 <Box
                   key={i}
@@ -195,7 +195,7 @@ const Home = () => {
       </Box>
 
       {/* Built for India's Digital Health Revolution */}
-      <Box py={20} bg="white">
+      <Box py={{base:14,lg:20}} bg="white">
         <Container maxW="8xl">
    
           <Flex
@@ -280,7 +280,7 @@ const Home = () => {
       </Box>
 
       {/* Why Choose Arogya Partner */}
-      <Box py={20} >
+      <Box py={{base:14,lg:20}} pb={{base:15,lg:20}} >
         <Container maxW="8xl">
           <VStack spacing={{base:6,lg:12}}  >
             <Heading fontSize={{base:'24px',md : "34px",lg:'44px'}} display={"flex"} alignSelf={"flex-start"} color="#12161D">
