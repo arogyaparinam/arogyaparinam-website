@@ -193,9 +193,9 @@ Discover how Arogya-Parinam simplifies health data management across the ecosyst
                   borderRadius="xl"
                   overflow="hidden"
                   shadow="sm"
-                  pt={{base:8,lg:12}}
+                  pt={{base:10,lg:12}}
                   px={3}
-                  
+                  h="100%"
                   maxW="400px"
                 >
                   <Box h={200}  display="flex" alignItems="center" justifyContent="center" >

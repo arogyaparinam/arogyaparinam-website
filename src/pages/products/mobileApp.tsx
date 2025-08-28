@@ -548,12 +548,12 @@ One App for Everything.
     gap={{ base: 10, lg: 20 }} 
   >
 
-    <Box  maxW={{ base: "100%", lg: "700px" }}  flex={1}   borderRadius={"24px"} display={{base:'none',md:'block',lg:'block'}}>
+    <Box  maxW={{ base: "100%", lg: "700px" }}  flex={1}   borderRadius={"24px"} >
       <Health maxW="100%" h="auto" />
     </Box>
-    <Box  maxW={"100%"}  flex={1}   borderRadius={"24px"} display={{base:'block',md:'none',lg:'none'}}>
+    {/* <Box  maxW={"100%"}  flex={1}   borderRadius={"24px"} display={{base:'block',md:'none',lg:'none'}}>
       <HealthMobileImg maxW="100%" h="auto" />
-    </Box>
+    </Box> */}
 
 
     <VStack

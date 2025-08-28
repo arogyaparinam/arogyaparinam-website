@@ -200,8 +200,8 @@ const router = useRouter();
             </Flex>
            <Flex
             direction={{ base: "column", lg: "row" }}
-            alignItems="center"
-          
+            alignItems={{base:"flex-start",md:'center',lg:"center"}}
+            justify={'flex-start'}
             gap={{base:10,lg:20}}
             py={{base:10,lg:20}}
           >
@@ -214,7 +214,7 @@ const router = useRouter();
         
         />
      
-            <VStack align={'flex-start'} spacing={{base:5,lg:8}} flex={1}>
+            <VStack align={'flex-start'} spacing={{base:6,lg:8}} flex={1}>
               <Text color="rgba(18, 26, 32, 1)" fontSize={{base:'20px',md:'24px',lg:'28px'}} fontWeight={600}>We’re on a mission to</Text>
               <Flex align={"center"} gap={5}>
                 <Icon boxSize={{base:7,lg:10}}>
@@ -469,7 +469,7 @@ const router = useRouter();
       </Box>
 
     {/*Features*/}
- <Box py={{base:14,lg:20}} bg="white" mt={{base:1,lg:10}}>
+ <Box py={{base:14,lg:20}} bg="white" >
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'32px',lg:'45px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
@@ -630,7 +630,7 @@ const router = useRouter();
       </Box>
 
     {/*Our Team*/}
-     <Box py={{base:5,lg:10}} bg="white" mt={{base:1,lg:5}}>
+     <Box py={{base:5,lg:10}} bg="white" >
         <Container maxW="8xl">
         <Flex flexDir={"column"} justify={"flex-start"} align={"flex-start"} gap={{base:'20px',md:'35px',lg:'38px'}} >
               <Text fontSize={{base:'24px',md : "34px",lg:'44px'}} fontWeight={700} color={"#12161D"} lineHeight={{base:'34px',md:'44px',lg:'52px'}}>
